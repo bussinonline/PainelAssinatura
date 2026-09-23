@@ -4467,6 +4467,630 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
 }
 
+
+/* ===== V28 • ETAPAS 1–3: BASE LIMPA, CUSTOS E CONSISTÊNCIA ===== */
+
+.onboarding-modal{
+  z-index:180;
+}
+.onboarding-box{
+  width:min(500px,100%);
+  padding:24px;
+}
+.onboarding-mark{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  margin-bottom:14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  font-size:19px;
+  font-weight:850;
+  box-shadow:0 12px 28px rgba(79,134,250,.22);
+}
+.onboarding-box h2{
+  margin:7px 0 0;
+  font-size:21px;
+  letter-spacing:-.025em;
+}
+.onboarding-box>p{
+  margin:7px 0 18px;
+  color:var(--muted);
+  font-size:11.5px;
+  line-height:1.5;
+}
+.onboarding-actions{
+  justify-content:flex-end;
+}
+.onboarding-actions .btn{
+  min-width:150px;
+}
+
+.undo-toast{
+  position:fixed;
+  z-index:170;
+  left:50%;
+  bottom:28px;
+  transform:translate(-50%,16px);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:min(360px,calc(100vw - 28px));
+  max-width:calc(100vw - 28px);
+  padding:10px 11px 10px 14px;
+  border:1px solid var(--line-strong);
+  border-radius:13px;
+  background:var(--panel3);
+  color:var(--text);
+  box-shadow:0 18px 45px rgba(0,0,0,.28);
+  opacity:0;
+  visibility:hidden;
+  transition:.18s ease;
+}
+.undo-toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,0);
+}
+.undo-toast span{
+  flex:1;
+  min-width:0;
+  font-size:11px;
+  font-weight:650;
+}
+.undo-toast button{
+  flex:0 0 auto;
+  padding:7px 10px;
+  border:1px solid rgba(90,140,255,.25);
+  border-radius:9px;
+  background:var(--primary-soft);
+  color:#9dbbff;
+  font-size:10px;
+  font-weight:760;
+}
+
+.cost-row-actions{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+.cost-row-actions .tiny{
+  width:auto;
+  min-width:0;
+  padding:0 9px;
+}
+.cost-delete-btn{
+  color:#ff8e9c;
+  border-color:rgba(255,113,129,.18);
+  background:rgba(255,113,129,.05);
+}
+
+/* O conteúdo deixa espaço para o botão flutuante e para a área segura do navegador. */
+@media(max-width:760px){
+  .main{
+    padding-bottom:calc(118px + env(safe-area-inset-bottom));
+  }
+  .page{
+    padding-bottom:22px;
+  }
+  .undo-toast{
+    bottom:calc(82px + env(safe-area-inset-bottom));
+  }
+  .onboarding-box{
+    padding:20px 16px calc(18px + env(safe-area-inset-bottom));
+    border-radius:20px 20px 12px 12px;
+  }
+
+  /* Modal de cliente: nenhuma ação pode escapar lateralmente em 375px. */
+  #detailContent .client-section-title{
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  #detailContent .client-section-title .btn{
+    width:100%;
+    max-width:100%;
+    flex:0 0 auto;
+  }
+  #detailContent .client-profile-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+  }
+  #detailContent .client-action-btn{
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+  #detailContent .client-profile-footer{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #detailContent .client-profile-footer .btn{
+    max-width:100%;
+  }
+  #detailContent .client-profile-footer .btn:last-child{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:390px){
+  .cost-row-actions{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .cost-row-actions .tiny{
+    width:100%;
+  }
+}
+
+:root.light .undo-toast{
+  background:#fff;
+  box-shadow:0 18px 42px rgba(32,50,78,.16);
+}
+:root.light .undo-toast button{
+  color:#315fb8;
+}
+
+
+/* ===== V29 • CONFIGURAÇÕES REFINADAS ===== */
+.config-page{
+  --config-gap:12px;
+}
+.config-topbar{
+  margin-bottom:15px;
+}
+.config-hello h1{
+  font-size:22px;
+  letter-spacing:-.025em;
+}
+.config-hello p{
+  max-width:640px;
+  margin-top:6px;
+  line-height:1.45;
+}
+
+.config-layout{
+  display:grid;
+  gap:var(--config-gap);
+}
+.config-section{
+  min-width:0;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.012),transparent 42%),
+    var(--panel);
+}
+.config-section-heading{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:1px 1px 13px;
+}
+.config-heading-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--panel2);
+  color:#9eb8f5;
+  font-size:12px;
+  font-weight:800;
+}
+.config-section-heading>div:last-child{
+  min-width:0;
+}
+.config-section-heading h2{
+  margin:4px 0 0;
+  font-size:14.5px;
+  font-weight:740;
+  letter-spacing:-.018em;
+}
+.config-section-heading p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.42;
+}
+
+.config-list{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--panel2);
+}
+.config-item{
+  min-width:0;
+  min-height:66px;
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  padding:10px 11px;
+  border-bottom:1px solid var(--line);
+}
+.config-item:last-child{
+  border-bottom:0;
+}
+.config-item-icon{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:rgba(90,140,255,.075);
+  color:#95b2f5;
+  font-size:10px;
+  font-weight:800;
+}
+.config-item-copy{
+  min-width:0;
+}
+.config-item-copy b{
+  display:block;
+  color:var(--text);
+  font-size:11.5px;
+  font-weight:720;
+}
+.config-item-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9.5px;
+  line-height:1.35;
+}
+.config-item-control{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  min-width:0;
+}
+.config-compact-action{
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:0 10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--panel);
+  color:var(--text);
+  font-size:9.5px;
+  font-weight:700;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:border-color .16s ease,background .16s ease,transform .16s ease;
+}
+.config-compact-action:hover{
+  border-color:var(--line-strong);
+  background:var(--panel3);
+}
+.config-compact-action:active{
+  transform:translateY(1px);
+}
+.config-compact-action:focus-visible,
+.config-inline-input:focus-visible,
+.message-template-card textarea:focus-visible{
+  outline:2px solid rgba(90,140,255,.72);
+  outline-offset:2px;
+}
+.config-action-dot{
+  width:7px;
+  height:7px;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  box-shadow:0 0 0 3px rgba(90,140,255,.09);
+}
+
+.config-value-control{
+  min-width:250px;
+  max-width:360px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:7px;
+}
+.config-inline-input{
+  width:100%;
+  min-width:0;
+  height:35px;
+  padding:0 10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--panel);
+  color:var(--text);
+  font-size:10.5px;
+  outline:none;
+}
+.config-inline-input::placeholder{
+  color:var(--muted2);
+}
+.config-edit-label{
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 9px;
+  border:1px solid transparent;
+  border-radius:8px;
+  color:#9eb8f5;
+  font-size:9.5px;
+  font-weight:720;
+  cursor:text;
+}
+.config-edit-label:hover{
+  background:var(--primary-soft);
+}
+
+.config-message-grid{
+  gap:9px;
+}
+.config-message-grid .message-template-card{
+  padding:11px;
+  border-radius:11px;
+  background:var(--panel2);
+}
+.config-message-grid .message-template-head{
+  margin-bottom:8px;
+}
+.config-message-grid .message-template-head h3{
+  font-size:12px;
+}
+.config-message-grid .message-template-head p{
+  font-size:9.5px;
+}
+.config-message-grid .message-stage{
+  min-height:20px;
+  padding:3px 6px;
+  font-size:7.7px;
+}
+.config-message-grid textarea{
+  min-height:92px;
+  max-height:180px;
+  padding:9px 10px;
+  border-radius:9px;
+  font-size:10.5px;
+}
+.config-token-help{
+  margin-top:9px;
+  padding:8px 9px;
+  border-radius:9px;
+  font-size:8.8px;
+}
+
+.config-data-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.config-file-action{
+  cursor:pointer;
+}
+.config-danger-item .config-item-icon{
+  background:rgba(255,113,129,.08);
+  color:#ff8795;
+}
+.config-danger-action{
+  color:#ff8e9c;
+  border-color:rgba(255,113,129,.20);
+  background:rgba(255,113,129,.045);
+}
+
+/* Nesta tela o FAB de novo cliente fica oculto para evitar uma ação solta. */
+body:has(#page-config.active) .fab{
+  display:none;
+}
+
+:root.light .config-section{
+  background:#fff;
+}
+:root.light .config-list,
+:root.light .config-message-grid .message-template-card{
+  background:var(--panel2);
+}
+:root.light .config-heading-icon,
+:root.light .config-item-icon{
+  background:#edf3ff;
+  color:#315fb8;
+}
+:root.light .config-compact-action,
+:root.light .config-inline-input{
+  background:#fff;
+}
+:root.light .config-edit-label{
+  color:#315fb8;
+}
+:root.light .config-danger-item .config-item-icon{
+  background:rgba(195,61,81,.08);
+  color:#b83246;
+}
+:root.light .config-danger-action{
+  color:#b83246;
+  border-color:rgba(195,61,81,.18);
+  background:rgba(195,61,81,.05);
+}
+
+@media(min-width:1000px){
+  .config-layout{
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    align-items:start;
+  }
+  .config-general,
+  .config-security{
+    grid-column:1;
+  }
+  .config-messages-card{
+    grid-column:2;
+    grid-row:1 / span 2;
+  }
+  .config-message-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:760px){
+  .config-page{
+    --config-gap:10px;
+  }
+  .config-topbar{
+    margin-bottom:12px;
+  }
+  .config-hello h1{
+    font-size:20px;
+  }
+  .config-hello p{
+    font-size:11px;
+  }
+  .config-section{
+    padding:12px;
+    border-radius:13px;
+  }
+  .config-section-heading{
+    gap:9px;
+    padding-bottom:11px;
+  }
+  .config-heading-icon{
+    width:28px;
+    height:28px;
+    flex-basis:28px;
+  }
+  .config-section-heading h2{
+    font-size:13.5px;
+  }
+  .config-section-heading p{
+    font-size:9.8px;
+  }
+  .config-item{
+    grid-template-columns:28px minmax(0,1fr) auto;
+    gap:8px;
+    min-height:62px;
+    padding:9px;
+  }
+  .config-item-icon{
+    width:26px;
+    height:26px;
+  }
+  .config-item-copy b{
+    font-size:11px;
+  }
+  .config-item-copy span{
+    font-size:9px;
+  }
+  .config-item-editable{
+    grid-template-columns:28px minmax(0,1fr);
+  }
+  .config-item-editable .config-value-control{
+    grid-column:2;
+    width:100%;
+    min-width:0;
+    max-width:none;
+    margin-top:1px;
+  }
+  .config-data-item{
+    grid-template-columns:28px minmax(0,1fr);
+  }
+  .config-data-actions{
+    grid-column:2;
+    justify-content:flex-start;
+  }
+  .config-danger-item{
+    grid-template-columns:28px minmax(0,1fr);
+  }
+  .config-danger-item .config-item-control{
+    grid-column:2;
+    justify-content:flex-start;
+  }
+  .config-message-grid{
+    grid-template-columns:1fr;
+  }
+  .config-message-grid textarea{
+    min-height:86px;
+  }
+}
+
+@media(max-width:390px){
+  .config-section{
+    padding:10px;
+  }
+  .config-item{
+    gap:7px;
+    padding:9px 8px;
+  }
+  .config-value-control{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:5px;
+  }
+  .config-inline-input{
+    font-size:10px;
+    padding:0 8px;
+  }
+  .config-edit-label{
+    padding:0 7px;
+  }
+  .config-compact-action{
+    min-height:32px;
+    padding:0 8px;
+    font-size:9px;
+  }
+}
+
+
+/* ===== V30 • AJUSTES PONTUAIS CLIENTES + CALENDÁRIO ===== */
+
+/* Título único da lista de assinantes. */
+.clients-control-head h2{
+  margin-top:0;
+  letter-spacing:.025em;
+}
+
+/* No celular, os filtros ficam contidos dentro do próprio card.
+   Em vez de avançarem para fora, quebram em novas linhas. */
+@media(max-width:760px){
+  .clients-control{
+    overflow:hidden;
+  }
+
+  .clients-control .clients-filters{
+    width:100%;
+    max-width:100%;
+    margin-left:0;
+    margin-right:0;
+    padding:2px 0 8px;
+    overflow:visible;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .clients-control .clients-filters .chip{
+    flex:0 0 auto;
+    max-width:100%;
+  }
+}
+
+@media(max-width:390px){
+  .clients-control .clients-filters{
+    gap:5px;
+  }
+
+  .clients-control .clients-filters .chip{
+    padding:7px 9px;
+    font-size:10px;
+  }
+}
+
+/* Como os cards-resumo foram removidos, aproxima o calendário do cabeçalho. */
+.calendar-topbar{
+  margin-bottom:12px;
+}
+
 </style>
 </head>
 <body>
@@ -4497,7 +5121,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <section class="page active" id="page-inicio">
       <div class="topbar">
         <div class="hello">
-          <h1>Bom dia, <span id="userName">Administrador</span> ☀️</h1>
+          <h1>Bom dia, <span id="userName"></span> ☀️</h1>
           <p>Bora ver como estão seus números?</p>
         </div>
         <div class="top-actions">
@@ -4751,8 +5375,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <div class="clients-control card">
         <div class="clients-control-head">
           <div>
-            <span class="home-eyebrow">BASE DE CLIENTES</span>
-            <h2>Lista de assinantes</h2>
+            <h2>LISTA DE ASSINANTES</h2>
           </div>
           <div class="clients-count-badge"><span id="clientShownCount">0</span> exibidos</div>
         </div>
@@ -4866,29 +5489,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <div class="hello">
           <h1>Calendário Financeiro</h1>
           <p>Acompanhe vencimentos, pagamentos e previsão de recebimento por data.</p>
-        </div>
-      </div>
-
-      <div class="calendar-overview">
-        <div class="card calendar-overview-card">
-          <span>Previsto no mês</span>
-          <b class="money" id="calExpected">R$ 0,00</b>
-          <small>vencimentos do período</small>
-        </div>
-        <div class="card calendar-overview-card good">
-          <span>Recebido no mês</span>
-          <b class="money" id="calReceived">R$ 0,00</b>
-          <small>pagamentos registrados</small>
-        </div>
-        <div class="card calendar-overview-card">
-          <span>Vencimentos</span>
-          <b id="calDueCount">0</b>
-          <small>assinaturas no período</small>
-        </div>
-        <div class="card calendar-overview-card info">
-          <span>Pagamentos</span>
-          <b id="calPaymentCount">0</b>
-          <small>recebimentos registrados</small>
         </div>
       </div>
 
@@ -5011,96 +5611,169 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <div class="card"><div class="section-head" style="margin-top:0"><div><h2>Resumo do mês atual</h2><p>Resultado líquido calculado pelos registros deste mês.</p></div></div><div class="detail-grid"><div class="detail-box"><span>Receita recebida</span><b class="money" id="sumReceived">R$ 0,00</b></div><div class="detail-box"><span>Custos</span><b class="money" id="sumCosts">R$ 0,00</b></div><div class="detail-box"><span>Resultado</span><b class="money" id="sumNet">R$ 0,00</b></div></div></div>
       </div>
     </section>
-    <section class="page" id="page-config">
+    <section class="page config-page" id="page-config">
       <div class="topbar config-topbar">
-        <div class="hello">
+        <div class="hello config-hello">
           <h1>Configurações</h1>
           <p>Preferências do painel, mensagens de cobrança e segurança dos dados.</p>
         </div>
       </div>
 
-      <div class="config-section-card">
-        <div class="config-section-head">
-          <div>
-            <span class="home-eyebrow">GERAL</span>
-            <h2>Preferências do painel</h2>
-            <p>Ajustes básicos que afetam a sua experiência de uso.</p>
-          </div>
-        </div>
-        <div class="settings-group">
-          <div class="setting"><div><b>Tema</b><span>Alterne entre o visual escuro e claro.</span></div><button class="btn" onclick="toggleTheme()">Alternar tema</button></div>
-          <div class="setting"><div><b>Nome no painel</b><span>Usado na saudação e no fechamento mensal.</span></div><input class="select" id="cfgName" placeholder="Administrador" onchange="saveSettings()"></div>
-          <div class="setting"><div><b>Chave Pix</b><span>Inserida automaticamente nas mensagens que usam {pix}.</span></div><input class="select" id="cfgPix" placeholder="Sua chave Pix" onchange="saveSettings()"></div>
-          <div class="setting"><div><b>Privacidade</b><span>Oculta valores e informações sensíveis na tela.</span></div><button class="btn" onclick="togglePrivacy()">Ocultar/mostrar</button></div>
-        </div>
-      </div>
-
-      <div class="config-section-card config-messages-card">
-        <div class="config-section-head">
-          <div>
-            <span class="home-eyebrow">MENSAGENS PARA CLIENTES</span>
-            <h2>Lembretes e cobranças</h2>
-            <p>O painel já diferencia a mensagem enviada antes do vencimento da mensagem usada no próprio dia.</p>
-          </div>
-        </div>
-
-        <div class="message-template-grid">
-          <div class="message-template-card reminder">
-            <div class="message-template-head">
-              <span class="message-stage">ANTES DO VENCIMENTO</span>
-              <h3>Lembrete de vencimento</h3>
-              <p>Use esta mensagem para lembrar o cliente antes da data de vencimento.</p>
+      <div class="config-layout">
+        <section class="config-section config-general" aria-labelledby="configGeneralTitle">
+          <div class="config-section-heading">
+            <div class="config-heading-icon" aria-hidden="true">⚙</div>
+            <div>
+              <span class="home-eyebrow">GERAL</span>
+              <h2 id="configGeneralTitle">Preferências do painel</h2>
+              <p>Ajustes rápidos para personalizar sua experiência.</p>
             </div>
-            <textarea id="msgReminder" onchange="saveSettings()" aria-label="Mensagem de lembrete antes do vencimento"></textarea>
           </div>
 
-          <div class="message-template-card due">
-            <div class="message-template-head">
-              <span class="message-stage">NO DIA DO VENCIMENTO</span>
-              <h3>Vencimento hoje</h3>
-              <p>Mensagem diferente para enviar ao cliente exatamente no dia em que a assinatura vence.</p>
+          <div class="config-list">
+            <div class="config-item">
+              <div class="config-item-icon" aria-hidden="true">◐</div>
+              <div class="config-item-copy">
+                <b>Tema</b>
+                <span>Alterne entre o visual escuro e claro.</span>
+              </div>
+              <div class="config-item-control">
+                <button class="config-compact-action" type="button" onclick="toggleTheme()" aria-label="Alternar tema">
+                  <span class="config-action-dot" aria-hidden="true"></span>
+                  Alternar
+                </button>
+              </div>
             </div>
-            <textarea id="msgDue" onchange="saveSettings()" aria-label="Mensagem no dia do vencimento"></textarea>
-          </div>
 
-          <div class="message-template-card overdue">
-            <div class="message-template-head">
-              <span class="message-stage">APÓS O VENCIMENTO</span>
-              <h3>Pagamento atrasado</h3>
-              <p>Utilizada quando o vencimento já passou e ainda há cobrança pendente.</p>
+            <div class="config-item config-item-editable">
+              <div class="config-item-icon" aria-hidden="true">Aa</div>
+              <div class="config-item-copy">
+                <b>Nome no painel</b>
+                <span>Usado na saudação e no fechamento mensal.</span>
+              </div>
+              <div class="config-value-control">
+                <input class="config-inline-input" id="cfgName" placeholder="Seu nome" onchange="saveSettings()" aria-label="Nome no painel">
+                <label class="config-edit-label" for="cfgName">Editar</label>
+              </div>
             </div>
-            <textarea id="msgOverdue" onchange="saveSettings()" aria-label="Mensagem de pagamento atrasado"></textarea>
-          </div>
 
-          <div class="message-template-card paid">
-            <div class="message-template-head">
-              <span class="message-stage">APÓS O PAGAMENTO</span>
-              <h3>Pagamento confirmado</h3>
-              <p>Confirma o recebimento e informa a renovação da assinatura.</p>
+            <div class="config-item config-item-editable">
+              <div class="config-item-icon" aria-hidden="true">◆</div>
+              <div class="config-item-copy">
+                <b>Chave Pix</b>
+                <span>Inserida automaticamente nas mensagens que usam {pix}.</span>
+              </div>
+              <div class="config-value-control">
+                <input class="config-inline-input" id="cfgPix" placeholder="Sua chave Pix" onchange="saveSettings()" aria-label="Chave Pix">
+                <label class="config-edit-label" for="cfgPix">Editar</label>
+              </div>
             </div>
-            <textarea id="msgPaid" onchange="saveSettings()" aria-label="Mensagem de pagamento confirmado"></textarea>
           </div>
-        </div>
+        </section>
 
-        <div class="message-token-help">
-          <b>Campos automáticos:</b>
-          <span>{nome}</span><span>{valor}</span><span>{vencimento}</span><span>{plano}</span><span>{pix}</span>
-        </div>
-      </div>
-
-      <div class="config-section-card">
-        <div class="config-section-head">
-          <div>
-            <span class="home-eyebrow">DADOS</span>
-            <h2>Backup e restauração</h2>
-            <p>Exporte uma cópia dos seus registros ou importe um backup existente.</p>
+        <section class="config-section config-messages-card" aria-labelledby="configMessagesTitle">
+          <div class="config-section-heading">
+            <div class="config-heading-icon" aria-hidden="true">✉</div>
+            <div>
+              <span class="home-eyebrow">MENSAGENS DE COBRANÇA</span>
+              <h2 id="configMessagesTitle">Lembretes e cobranças</h2>
+              <p>Edite os textos que já são usados pelo painel em cada etapa do vencimento.</p>
+            </div>
           </div>
-        </div>
-        <div class="toolbar config-backup-actions">
-          <button class="btn" onclick="exportBackup()">Exportar backup JSON</button>
-          <label class="btn">Importar backup<input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(this.files[0])"></label>
-          <button class="btn danger" onclick="resetDemo()">Restaurar dados de exemplo</button>
-        </div>
+
+          <div class="message-template-grid config-message-grid">
+            <div class="message-template-card reminder">
+              <div class="message-template-head">
+                <span class="message-stage">ANTES DO VENCIMENTO</span>
+                <h3>Lembrete de vencimento</h3>
+                <p>Use esta mensagem para lembrar o cliente antes da data de vencimento.</p>
+              </div>
+              <textarea id="msgReminder" onchange="saveSettings()" aria-label="Mensagem de lembrete antes do vencimento"></textarea>
+            </div>
+
+            <div class="message-template-card due">
+              <div class="message-template-head">
+                <span class="message-stage">NO DIA DO VENCIMENTO</span>
+                <h3>Vencimento hoje</h3>
+                <p>Mensagem diferente para enviar ao cliente exatamente no dia em que a assinatura vence.</p>
+              </div>
+              <textarea id="msgDue" onchange="saveSettings()" aria-label="Mensagem no dia do vencimento"></textarea>
+            </div>
+
+            <div class="message-template-card overdue">
+              <div class="message-template-head">
+                <span class="message-stage">APÓS O VENCIMENTO</span>
+                <h3>Pagamento atrasado</h3>
+                <p>Utilizada quando o vencimento já passou e ainda há cobrança pendente.</p>
+              </div>
+              <textarea id="msgOverdue" onchange="saveSettings()" aria-label="Mensagem de pagamento atrasado"></textarea>
+            </div>
+
+            <div class="message-template-card paid">
+              <div class="message-template-head">
+                <span class="message-stage">APÓS O PAGAMENTO</span>
+                <h3>Pagamento confirmado</h3>
+                <p>Confirma o recebimento e informa a renovação da assinatura.</p>
+              </div>
+              <textarea id="msgPaid" onchange="saveSettings()" aria-label="Mensagem de pagamento confirmado"></textarea>
+            </div>
+          </div>
+
+          <div class="message-token-help config-token-help">
+            <b>Campos automáticos:</b>
+            <span>{nome}</span><span>{valor}</span><span>{vencimento}</span><span>{plano}</span><span>{pix}</span>
+          </div>
+        </section>
+
+        <section class="config-section config-security" aria-labelledby="configSecurityTitle">
+          <div class="config-section-heading">
+            <div class="config-heading-icon" aria-hidden="true">⌁</div>
+            <div>
+              <span class="home-eyebrow">SEGURANÇA E DADOS</span>
+              <h2 id="configSecurityTitle">Privacidade e backup</h2>
+              <p>Controle a exibição dos valores e mantenha uma cópia dos seus registros.</p>
+            </div>
+          </div>
+
+          <div class="config-list">
+            <div class="config-item">
+              <div class="config-item-icon" aria-hidden="true">◉</div>
+              <div class="config-item-copy">
+                <b>Privacidade</b>
+                <span>Oculta valores e informações sensíveis na tela.</span>
+              </div>
+              <div class="config-item-control">
+                <button class="config-compact-action" type="button" onclick="togglePrivacy()" aria-label="Ocultar ou mostrar valores">Ocultar/mostrar</button>
+              </div>
+            </div>
+
+            <div class="config-item config-data-item">
+              <div class="config-item-icon" aria-hidden="true">⇩</div>
+              <div class="config-item-copy">
+                <b>Backup dos dados</b>
+                <span>Exporte ou importe uma cópia JSON dos registros do painel.</span>
+              </div>
+              <div class="config-data-actions">
+                <button class="config-compact-action" type="button" onclick="exportBackup()">Exportar</button>
+                <label class="config-compact-action config-file-action">
+                  Importar
+                  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(this.files[0])">
+                </label>
+              </div>
+            </div>
+
+            <div class="config-item config-danger-item">
+              <div class="config-item-icon" aria-hidden="true">!</div>
+              <div class="config-item-copy">
+                <b>Apagar todos os dados</b>
+                <span>Remove os dados salvos neste navegador após confirmação.</span>
+              </div>
+              <div class="config-item-control">
+                <button class="config-compact-action config-danger-action" type="button" onclick="clearAllData()">Apagar dados</button>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </main>
@@ -5125,8 +5798,36 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <div class="notification-panel-foot">Atualiza com os dados registrados no painel.</div>
 </div>
 <div class="panel-toast" id="panelToast" role="status" aria-live="polite">Painel atualizado</div>
+<div class="undo-toast" id="costUndoToast" role="status" aria-live="polite" aria-hidden="true">
+  <span>Custo excluído.</span>
+  <button type="button" onclick="undoDeleteCost()">Desfazer</button>
+</div>
 
 <button class="fab" onclick="openClientModal()">+</button>
+<div class="modal onboarding-modal" id="onboardingModal" aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="onboardingTitle">
+  <div class="modal-box onboarding-box">
+    <div class="onboarding-mark">B</div>
+    <span class="home-eyebrow">PRIMEIRO ACESSO</span>
+    <h2 id="onboardingTitle">Vamos configurar seu painel</h2>
+    <p>Comece com a base totalmente vazia. Informe seu nome e, se quiser, a chave Pix usada nas mensagens.</p>
+    <form onsubmit="saveOnboarding(event)">
+      <div class="form-grid">
+        <div class="field span2">
+          <label>Seu nome</label>
+          <input id="onboardingName" autocomplete="name" required placeholder="Digite seu nome">
+        </div>
+        <div class="field span2">
+          <label>Chave Pix <span class="muted">(opcional)</span></label>
+          <input id="onboardingPix" autocomplete="off" placeholder="Você pode preencher depois">
+        </div>
+      </div>
+      <div class="modal-foot onboarding-actions">
+        <button class="btn primary" type="submit">Começar a usar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 <div class="modal" id="clientModal">
   <div class="modal-box">
@@ -5172,8 +5873,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <div class="modal" id="costModal">
   <div class="modal-box" style="width:min(520px,100%)">
-    <div class="modal-head"><h3>Registrar custo</h3><button class="icon-btn" onclick="closeModal('costModal')">✕</button></div>
+    <div class="modal-head"><h3 id="costModalTitle">Registrar custo</h3><button class="icon-btn" onclick="closeModal('costModal')" aria-label="Fechar custo">✕</button></div>
     <form onsubmit="saveCost(event)">
+      <input type="hidden" id="costId">
       <div class="form-grid">
         <div class="field"><label>Descrição</label><input id="costDesc" required></div>
         <div class="field"><label>Valor</label><input id="costValue" type="number" step="0.01" required></div>
@@ -5194,44 +5896,49 @@ const addDays=(d,n)=>{let x=typeof d==='string'?iso(d):new Date(d);x.setDate(x.g
 const daysDiff=(a,b)=>Math.round((iso(a)-iso(b))/86400000);
 const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
 
-const demo=()=>{
- const t=todayISO();
- return {
-  clients:[
-   {id:uid(),name:'Adriana',phone:'67984668246',plan:'Mensal',value:39.90,start:addDays(t,-40),due:addDays(t,10),status:'pendente',source:'Instagram',notes:'',payments:[{id:uid(),date:addDays(t,-20),value:39.90,method:'Pix',note:''}]},
-   {id:uid(),name:'Anderson',phone:'6796542512',plan:'Mensal',value:40,start:addDays(t,-65),due:addDays(t,12),status:'pendente',source:'WhatsApp',notes:'',payments:[{id:uid(),date:addDays(t,-18),value:40,method:'Pix',note:''}]},
-   {id:uid(),name:'Anderson',phone:'6796542512',plan:'Mensal',value:40,start:addDays(t,-83),due:addDays(t,16),status:'ativo',source:'Indicação',notes:'',payments:[{id:uid(),date:addDays(t,-10),value:40,method:'Pix',note:''}]},
-   {id:uid(),name:'Bruna',phone:'6791979817',plan:'Mensal',value:40,start:addDays(t,-25),due:addDays(t,7),status:'pendente',source:'Instagram',notes:'',payments:[]},
-   {id:uid(),name:'Carlos',phone:'67911112222',plan:'Mensal',value:39.90,start:addDays(t,-15),due:t,status:'pendente',source:'WhatsApp',notes:'',payments:[]},
-   {id:uid(),name:'Diego',phone:'67933334444',plan:'Mensal',value:40,start:addDays(t,-90),due:addDays(t,-2),status:'atrasado',source:'Indicação',notes:'',payments:[{id:uid(),date:addDays(t,-32),value:40,method:'Pix',note:''}]},
-   {id:uid(),name:'Elaine',phone:'67955556666',plan:'Mensal',value:40,start:addDays(t,-4),due:addDays(t,1),status:'ativo',source:'WhatsApp',notes:'',payments:[{id:uid(),date:addDays(t,-4),value:40,method:'Pix',note:''}]},
-   {id:uid(),name:'Fernanda',phone:'67977778888',plan:'Mensal',value:39.90,start:addDays(t,-2),due:addDays(t,5),status:'ativo',source:'Instagram',notes:'',payments:[{id:uid(),date:addDays(t,-2),value:39.90,method:'Pix',note:''}]},
-  ],
-  costs:[{id:uid(),desc:'Créditos',value:209.70,date:t,cat:'Créditos'}],
-  settings:{name:'Lincon',pix:'',privacy:false,theme:'dark',
-   msgReminder:'Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.',
-   msgDue:'Olá, {nome}! Tudo bem? Sua assinatura de {plano}, no valor de {valor}, vence hoje ({vencimento}). Pix: {pix}',
-   msgOverdue:'Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.',
-   msgPaid:'Olá, {nome}! Pagamento de {valor} confirmado. Sua assinatura está renovada por mais 30 dias. Obrigado!'}
+const STORAGE_KEY='subscription_panel_v3';
+const emptyDb=()=>({
+ clients:[],
+ costs:[],
+ settings:{
+  name:'',
+  pix:'',
+  privacy:false,
+  theme:'dark',
+  onboardingDone:false,
+  notificationReadKeys:[],
+  msgReminder:'Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.',
+  msgDue:'Olá, {nome}! Tudo bem? Sua assinatura de {plano}, no valor de {valor}, vence hoje ({vencimento}). Pix: {pix}',
+  msgOverdue:'Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.',
+  msgPaid:'Olá, {nome}! Pagamento de {valor} confirmado. Sua assinatura está renovada por mais 30 dias. Obrigado!'
  }
-}
-let db=JSON.parse(localStorage.getItem('subscription_panel_v2')||localStorage.getItem('subscription_panel_v1')||'null')||demo();
+});
+let db=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')||emptyDb();
+
 
 function ensureDataShape(){
+ db=db&&typeof db==='object'?db:emptyDb();
  db.settings=db.settings||{};
+ db.clients=(db.clients||[]).map(c=>({...c,plan:c.plan||'Mensal',billing:c.billing||[],payments:c.payments||[],cancelReason:c.cancelReason||'',cancelDate:c.cancelDate||''}));
+ db.costs=Array.isArray(db.costs)?db.costs:[];
+ db.settings.name=typeof db.settings.name==='string'?db.settings.name:'';
+ db.settings.pix=typeof db.settings.pix==='string'?db.settings.pix:'';
+ db.settings.theme=db.settings.theme==='light'?'light':'dark';
+ db.settings.privacy=Boolean(db.settings.privacy);
  db.settings.msgReminder=db.settings.msgReminder||'Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.';
  db.settings.msgDue=db.settings.msgDue||'Olá, {nome}! Tudo bem? Sua assinatura de {plano}, no valor de {valor}, vence hoje ({vencimento}). Pix: {pix}';
  db.settings.msgOverdue=db.settings.msgOverdue||db.settings.msgBilling||'Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.';
  db.settings.msgPaid=db.settings.msgPaid||'Olá, {nome}! Pagamento de {valor} confirmado. Sua assinatura está renovada por mais 30 dias. Obrigado!';
  db.settings.notificationReadKeys=Array.isArray(db.settings.notificationReadKeys)?db.settings.notificationReadKeys:[];
- db.clients=(db.clients||[]).map(c=>({...c,plan:c.plan||'Mensal',billing:c.billing||[],payments:c.payments||[],cancelReason:c.cancelReason||'',cancelDate:c.cancelDate||''}));
- db.costs=db.costs||[];
+ if(typeof db.settings.onboardingDone!=='boolean'){
+   db.settings.onboardingDone=Boolean(db.settings.name||db.clients.length||db.costs.length);
+ }
 }
 ensureDataShape();
 let activeStatus='all', activeBillingFilter='all', calDate=new Date(), homePeriod='month', reportYear=new Date().getFullYear();
 let homeFinancialState={received:0,toReceive:0,expected:0};
 
-function persist(){localStorage.setItem('subscription_panel_v2',JSON.stringify(db))}
+function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(db))}
 function normalizeStatuses(){
  const t=todayISO();
  db.clients.forEach(c=>{
@@ -5241,9 +5948,12 @@ function normalizeStatuses(){
    else if(c.status==='atrasado') c.status='pendente';
  });
 }
+function paymentDateKey(value){return String(value||'').slice(0,10)}
+function allPayments(){return db.clients.flatMap(c=>(c.payments||[]).map(p=>({...p,client:c}))).filter(p=>paymentDateKey(p.date))}
+function paymentsBetween(start,end){return allPayments().filter(p=>{const d=paymentDateKey(p.date);return d>=start&&d<=end})}
 function getMonthPayments(date=new Date()){
  const y=date.getFullYear(),m=date.getMonth();
- return db.clients.flatMap(c=>(c.payments||[]).map(p=>({...p,client:c}))).filter(p=>{let d=iso(p.date);return d.getFullYear()===y&&d.getMonth()===m})
+ return paymentsBetween(monthStartISO(y,m),monthEndISO(y,m));
 }
 function getMonthCosts(date=new Date()){const y=date.getFullYear(),m=date.getMonth();return db.costs.filter(c=>{let d=iso(c.date);return d.getFullYear()===y&&d.getMonth()===m})}
 function clientsDueWithin(n){const t=todayISO();return db.clients.filter(c=>c.status!=='cancelado'&&daysDiff(c.due,t)>=0&&daysDiff(c.due,t)<=n)}
@@ -5269,8 +5979,7 @@ function refreshDashboard(){
  const late=lateClients(); const today=clientsDueExact(0), tomorrow=clientsDueExact(1), next7=clientsDueWithin(7);
  const now=new Date();
  const range=homePeriodRange();
- const allPayments=db.clients.flatMap(c=>(c.payments||[]).map(p=>({...p,client:c})));
- const periodPayments=allPayments.filter(p=>dateInRange(p.date,range.start,range.end));
+ const periodPayments=paymentsBetween(range.start,range.end);
  const periodReceived=periodPayments.reduce((sum,p)=>sum+Number(p.value||0),0);
  const periodDueClients=db.clients.filter(c=>c.status!=='cancelado'&&dateInRange(c.due,range.start,range.end));
  // O vencimento atual é movido 30 dias após cada pagamento. Por isso, para o resumo do período,
@@ -5310,7 +6019,7 @@ function refreshDashboard(){
  // Relatórios continuam representando o mês atual, independentemente do filtro visual da Home.
  set('#rRevenue',brl(monthReceived));set('#rMrr',brl(mrr));set('#rTicket',brl(ticket));set('#rChurn',(active.length+canceled.length?((canceled.length/(active.length+canceled.length))*100):0).toFixed(1)+'%');
  set('#sumReceived',brl(monthReceived));set('#sumCosts',brl(monthCosts));set('#sumNet',brl(monthReceived-monthCosts));
- set('#userName',db.settings.name||'Administrador'); set('#cfgName',db.settings.name||'');set('#cfgPix',db.settings.pix||'');
+ set('#userName',db.settings.name||''); set('#cfgName',db.settings.name||'');set('#cfgPix',db.settings.pix||'');
  $$('.money').forEach(e=>e.dataset.raw=e.textContent);
  setTimeout(renderHomeStatusChart,0);
  applyPrivacy();
@@ -5394,7 +6103,7 @@ function clientRow(c){
    <div class="hide-sm"><span class="muted">Vence</span><br><b>${formatDate(c.due)}</b> <span class="muted">· ${remain}</span></div>
    <div class="hide-md"><span class="muted">Origem</span><br>${esc(c.source||'-')}</div>
    <div><span class="status ${sc}">● ${sl}</span></div>
-   <div class="row-actions"><button class="tiny" onclick="sendWhats('${c.id}','auto')" title="WhatsApp">◉</button><button class="tiny" onclick="openClientModal('${c.id}')" title="Editar">✎</button><button class="tiny" onclick="openDetail('${c.id}')" title="Detalhes">⋮</button></div>
+   <div class="row-actions">${c.status==='cancelado'?'':`<button class="tiny" onclick="sendWhats('${c.id}','auto')" title="WhatsApp" aria-label="Abrir WhatsApp de ${esc(c.name)}">◉</button>`}<button class="tiny" onclick="openClientModal('${c.id}')" title="Editar" aria-label="Editar ${esc(c.name)}">✎</button><button class="tiny" onclick="openDetail('${c.id}')" title="Detalhes" aria-label="Ver detalhes de ${esc(c.name)}">⋮</button></div>
  </div>`;
 }
 function setBillingFilter(filter){
@@ -5495,6 +6204,16 @@ function openDetail(id){
    ...pays.map(p=>({kind:'pay',title:`Pagamento recebido · ${brl(p.value)}`,sub:`${p.method}${p.note?' · '+p.note:''}`,date:p.date})),
    ...bills.map(b=>({kind:'bill',title:b.label,sub:'WhatsApp',date:b.date}))
  ].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,8);
+ const dueDays=daysDiff(c.due,todayISO());
+ let billingAction='';
+ if(c.status!=='cancelado'){
+   if(dueDays<0)billingAction=`<button class="client-action-btn danger" onclick="sendWhats('${c.id}','overdue')">Cobrar atraso</button>`;
+   else if(dueDays===0)billingAction=`<button class="client-action-btn warning" onclick="sendWhats('${c.id}','due')">Vence hoje</button>`;
+   else billingAction=`<button class="client-action-btn" onclick="sendWhats('${c.id}','reminder')">Lembrete</button>`;
+ }
+ const registerPaymentAction=c.status!=='cancelado'?`<button class="client-action-btn success" onclick="openPayment('${c.id}')">Registrar pagamento</button>`:'';
+ const addPaymentButton=c.status!=='cancelado'?`<button class="btn primary" onclick="openPayment('${c.id}')">+ Pagamento</button>`:'';
+ const confirmPaidButton=(c.status!=='cancelado'&&pays.length)?`<button class="btn success" onclick="sendWhats('${c.id}','paid')">Confirmar por WhatsApp</button>`:'';
 
  $('#detailContent').innerHTML=`
  <div class="client-profile-shell">
@@ -5521,17 +6240,15 @@ function openDetail(id){
    ${c.cancelReason?`<div class="client-profile-note"><b>Motivo do cancelamento</b><div>${esc(c.cancelReason)}</div></div>`:''}
    ${c.notes?`<div class="client-profile-note"><b>Observações</b><div>${esc(c.notes)}</div></div>`:''}
 
-   <div>
+   ${c.status!=='cancelado'?`<div>
      <div class="client-section-title">
-       <div><h4>Ações rápidas</h4><p>Mensagens prontas e registro de pagamento.</p></div>
+       <div><h4>Ações rápidas</h4><p>Ações disponíveis conforme o vencimento atual do cliente.</p></div>
      </div>
      <div class="client-profile-actions">
-       <button class="client-action-btn" onclick="sendWhats('${c.id}','reminder')">Lembrete</button>
-       <button class="client-action-btn warning" onclick="sendWhats('${c.id}','due')">Vence hoje</button>
-       <button class="client-action-btn danger" onclick="sendWhats('${c.id}','overdue')">Cobrar atraso</button>
-       <button class="client-action-btn success" onclick="openPayment('${c.id}')">Registrar pagamento</button>
+       ${billingAction}
+       ${registerPaymentAction}
      </div>
-   </div>
+   </div>`:''}
 
    <div class="client-timeline-card">
      <div class="client-timeline-head">
@@ -5549,7 +6266,7 @@ function openDetail(id){
    <div>
      <div class="client-section-title">
        <div><h4>Histórico de pagamentos</h4><p>${pays.length} pagamento(s) registrado(s).</p></div>
-       <button class="btn primary" onclick="openPayment('${c.id}')">+ Pagamento</button>
+       ${addPaymentButton}
      </div>
      ${pays.length?`
        <div class="table-wrap client-history-desktop"><table class="table"><thead><tr><th>Data</th><th>Valor</th><th>Método</th><th>Observação</th><th></th></tr></thead><tbody>${pays.map(p=>`<tr><td>${formatDate(p.date)}</td><td class="money">${brl(p.value)}</td><td>${esc(p.method)}</td><td>${esc(p.note||'-')}</td><td><button class="tiny" onclick="openPayment('${c.id}','${p.id}')">✎</button> <button class="tiny" onclick="deletePayment('${c.id}','${p.id}')">✕</button></td></tr>`).join('')}</tbody></table></div>
@@ -5591,12 +6308,20 @@ function openDetail(id){
    <div class="modal-foot client-profile-footer">
      <button class="btn danger" onclick="deleteClient('${c.id}')">Excluir cliente</button>
      <button class="btn" onclick="openClientModal('${c.id}');closeModal('detailModal')">Editar cadastro</button>
-     <button class="btn success" onclick="sendWhats('${c.id}','paid')">Confirmar por WhatsApp</button>
+     ${confirmPaidButton}
    </div>
  </div>`;
  $('#detailModal').classList.add('open');applyPrivacy();
 }
-function deleteClient(id){if(!confirm('Excluir este cliente?'))return;db.clients=db.clients.filter(c=>c.id!==id);persist();closeModal('detailModal');refreshAll()}
+function deleteClient(id){
+ const c=db.clients.find(x=>x.id===id);if(!c)return;
+ const payments=(c.payments||[]),billing=(c.billing||[]),paidTotal=payments.reduce((s,p)=>s+Number(p.value||0),0);
+ const details=payments.length?`\n\nEste cliente possui ${payments.length} pagamento${payments.length===1?'':'s'} (${brl(paidTotal)}). Esses pagamentos serão excluídos junto com o cliente.`:'';
+ const billingInfo=billing.length?`\nO histórico de ${billing.length} cobrança${billing.length===1?'':'s'} também será excluído.`:'';
+ if(!confirm(`Excluir o cliente "${c.name}"?${details}${billingInfo}\n\nEsta ação não pode ser desfeita.`))return;
+ db.clients=db.clients.filter(x=>x.id!==id);
+ persist();closeModal('detailModal');refreshAll();showPanelToast('Cliente excluído');
+}
 function openPayment(id,payId=''){
  const c=db.clients.find(x=>x.id===id);if(!c)return;
  $('#payClientId').value=id;$('#payId').value=payId;$('#payNote').value='';
@@ -5616,8 +6341,9 @@ function savePayment(e){
  if(payId){const p=c.payments.find(x=>x.id===payId);if(p)Object.assign(p,payload)}
  else c.payments.push({id:uid(),...payload});
  c.status='ativo';
- // Regra definida: cada pagamento renova a assinatura por 30 dias a partir da data em que foi pago.
- c.due=addDays(payload.date,30);
+ // O vencimento sempre parte do pagamento mais recente registrado para o cliente.
+ const latest=c.payments.slice().sort((a,b)=>paymentDateKey(b.date).localeCompare(paymentDateKey(a.date)))[0];
+ if(latest)c.due=addDays(paymentDateKey(latest.date),30);
  persist();closeModal('paymentModal');closeModal('detailModal');refreshAll();
 }
 function deletePayment(clientId,payId){
@@ -5653,10 +6379,7 @@ function renderCalendar(){
    const d=iso(c.due);
    return d.getFullYear()===y&&d.getMonth()===m;
  });
- const monthPayments=db.clients.flatMap(c=>(c.payments||[]).map(p=>({...p,client:c}))).filter(p=>{
-   const d=iso(p.date);
-   return d.getFullYear()===y&&d.getMonth()===m;
- });
+ const monthPayments=paymentsBetween(monthStartISO(y,m),monthEndISO(y,m));
  const expected=monthClients.reduce((s,c)=>s+Number(c.value||0),0);
  const received=monthPayments.reduce((s,p)=>s+Number(p.value||0),0);
 
@@ -5673,7 +6396,7 @@ function renderCalendar(){
  for(let d=1;d<=last.getDate();d++){
    const date=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
    const dues=db.clients.filter(c=>c.status!=='cancelado'&&c.due===date);
-   const pays=db.clients.flatMap(c=>(c.payments||[]).filter(p=>p.date===date).map(p=>({...p,client:c})));
+   const pays=allPayments().filter(p=>paymentDateKey(p.date)===date);
    const dueValue=dues.reduce((s,c)=>s+Number(c.value||0),0);
    const paidValue=pays.reduce((s,p)=>s+Number(p.value||0),0);
    const isPast=daysDiff(date,todayISO())<0;
@@ -5730,7 +6453,7 @@ function showDay(date){
  renderCalendar();
 
  const dues=db.clients.filter(c=>c.status!=='cancelado'&&c.due===date);
- const pays=db.clients.flatMap(c=>(c.payments||[]).filter(p=>p.date===date).map(p=>({...p,client:c})));
+ const pays=allPayments().filter(p=>paymentDateKey(p.date)===date);
  const dueValue=dues.reduce((s,c)=>s+Number(c.value||0),0);
  const paidValue=pays.reduce((s,p)=>s+Number(p.value||0),0);
 
@@ -5779,10 +6502,67 @@ function showDay(date){
  applyPrivacy();
 }
 
-function openCostModal(){$('#costDesc').value='';$('#costValue').value='';$('#costDate').value=todayISO();$('#costModal').classList.add('open')}
-function saveCost(e){e.preventDefault();db.costs.unshift({id:uid(),desc:$('#costDesc').value,value:Number($('#costValue').value),date:$('#costDate').value,cat:$('#costCat').value});persist();closeModal('costModal');refreshAll()}
+let deletedCostUndo=null,costUndoTimer=null;
+function openCostModal(id=''){
+ $('#costId').value='';
+ $('#costDesc').value='';
+ $('#costValue').value='';
+ $('#costDate').value=todayISO();
+ $('#costCat').value='Créditos';
+ $('#costModalTitle').textContent='Registrar custo';
+ if(id){
+   const cost=db.costs.find(c=>c.id===id);if(!cost)return;
+   $('#costId').value=cost.id;
+   $('#costDesc').value=cost.desc||'';
+   $('#costValue').value=cost.value;
+   $('#costDate').value=cost.date||todayISO();
+   $('#costCat').value=cost.cat||'Outros';
+   $('#costModalTitle').textContent='Editar custo';
+ }
+ $('#costModal').classList.add('open');
+}
+function saveCost(e){
+ e.preventDefault();
+ const id=$('#costId').value;
+ const payload={desc:$('#costDesc').value.trim(),value:Number($('#costValue').value),date:$('#costDate').value,cat:$('#costCat').value};
+ if(id){
+   const cost=db.costs.find(c=>c.id===id);if(!cost)return;
+   Object.assign(cost,payload);
+ }else{
+   db.costs.unshift({id:uid(),...payload});
+ }
+ persist();closeModal('costModal');refreshAll();
+ showPanelToast(id?'Custo atualizado':'Custo registrado');
+}
+function deleteCost(id){
+ const index=db.costs.findIndex(c=>c.id===id);if(index<0)return;
+ const cost=db.costs[index];
+ if(!confirm(`Excluir o custo "${cost.desc}" no valor de ${brl(cost.value)}?`))return;
+ const [removed]=db.costs.splice(index,1);
+ deletedCostUndo={cost:removed,index};
+ persist();refreshAll();showCostUndoToast();
+}
+function showCostUndoToast(){
+ const toast=$('#costUndoToast');if(!toast)return;
+ toast.classList.add('show');toast.setAttribute('aria-hidden','false');
+ clearTimeout(costUndoTimer);
+ costUndoTimer=setTimeout(()=>{
+   toast.classList.remove('show');toast.setAttribute('aria-hidden','true');deletedCostUndo=null;
+ },5000);
+}
+function undoDeleteCost(){
+ if(!deletedCostUndo)return;
+ const {cost,index}=deletedCostUndo;
+ db.costs.splice(Math.min(index,db.costs.length),0,cost);
+ deletedCostUndo=null;
+ clearTimeout(costUndoTimer);
+ const toast=$('#costUndoToast');if(toast){toast.classList.remove('show');toast.setAttribute('aria-hidden','true')}
+ persist();refreshAll();showPanelToast('Exclusão desfeita');
+}
 function renderCosts(){
- const arr=getMonthCosts();$('#costList').innerHTML=arr.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th></tr></thead><tbody>${arr.map(c=>`<tr><td>${esc(c.desc)}</td><td>${esc(c.cat)}</td><td>${formatDate(c.date)}</td><td class="money">${brl(c.value)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Nenhum custo neste mês.</div>';
+ const arr=getMonthCosts();
+ $('#costList').innerHTML=arr.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead><tbody>${arr.map(c=>`<tr><td>${esc(c.desc)}</td><td>${esc(c.cat)}</td><td>${formatDate(c.date)}</td><td class="money">${brl(c.value)}</td><td><div class="cost-row-actions"><button class="tiny" onclick="openCostModal('${c.id}')" aria-label="Editar custo ${esc(c.desc)}">✎ Editar</button><button class="tiny cost-delete-btn" onclick="deleteCost('${c.id}')" aria-label="Excluir custo ${esc(c.desc)}">✕ Excluir</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Nenhum custo neste mês.</div>';
+ applyPrivacy();
 }
 function renderBreakdownReports(){
  const render=(target,items,emptyText)=>{
@@ -5799,12 +6579,11 @@ function renderBreakdownReports(){
  render('#cancelReport',Object.entries(cancelMap).map(([label,value])=>({label,value})),'Nenhum cancelamento registrado.');
 }
 
-function allPayments(){return db.clients.flatMap(c=>(c.payments||[]).map(p=>({...p,client:c})))}
 function monthName(month,format='long'){return new Intl.DateTimeFormat('pt-BR',{month:format}).format(new Date(2026,month,1))}
 function monthStartISO(year,month){return `${year}-${String(month+1).padStart(2,'0')}-01`}
 function monthEndISO(year,month){const d=new Date(year,month+1,0,12);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function monthHasStarted(year,month){const start=monthStartISO(year,month);return start<=todayISO()}
-function paymentsForMonth(year,month){return allPayments().filter(p=>{const d=iso(p.date);return d.getFullYear()===year&&d.getMonth()===month})}
+function paymentsForMonth(year,month){return paymentsBetween(monthStartISO(year,month),monthEndISO(year,month))}
 function costsForMonth(year,month){return (db.costs||[]).filter(c=>{const d=iso(c.date);return d.getFullYear()===year&&d.getMonth()===month})}
 function clientsStartedForMonth(year,month){return db.clients.filter(c=>{if(!c.start)return false;const d=iso(c.start);return d.getFullYear()===year&&d.getMonth()===month})}
 function cancellationsForMonth(year,month){return db.clients.filter(c=>{if(!c.cancelDate)return false;const d=iso(c.cancelDate);return d.getFullYear()===year&&d.getMonth()===month})}
@@ -5907,7 +6686,7 @@ function selectCloseMonth(year,month){
  const card=$('.monthly-close-card');if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function renderMonthlyClose(){
- const mEl=$('#closeMonthSelect'),yEl=$('#closeYearSelect');if(!mEl||!yEl)return;const month=Number(mEl.value),year=Number(yEl.value),s=monthlySnapshot(year,month),now=new Date(),monthLabel=monthName(month),name=db.settings.name||'Administrador',isClosed=new Date(year,month+1,1)<=new Date(now.getFullYear(),now.getMonth(),1),isCurrent=year===now.getFullYear()&&month===now.getMonth();
+ const mEl=$('#closeMonthSelect'),yEl=$('#closeYearSelect');if(!mEl||!yEl)return;const month=Number(mEl.value),year=Number(yEl.value),s=monthlySnapshot(year,month),now=new Date(),monthLabel=monthName(month),name=db.settings.name||'Você',isClosed=new Date(year,month+1,1)<=new Date(now.getFullYear(),now.getMonth(),1),isCurrent=year===now.getFullYear()&&month===now.getMonth();
  const title=$('#monthlyCloseTitle');if(title)title.textContent=`${isClosed?'Fechamento':'Acompanhamento'} de ${monthLabel} ${year}`;const msg=$('#monthlyCloseMessage');if(msg){if(isClosed)msg.innerHTML=`<b>🎉 Parabéns, ${esc(name)}! Você fechou ${esc(monthLabel)} com <span class="money">${brl(s.received)}</span> recebidos.</b><span>O resultado deste mês fica guardado no histórico e o próximo período começa do dia 1 sem apagar os clientes ou pagamentos anteriores.</span>`;else if(isCurrent)msg.innerHTML=`<b>${esc(name)}, até agora ${esc(monthLabel)} soma <span class="money">${brl(s.received)}</span> recebidos.</b><span>O fechamento será consolidado automaticamente quando o mês terminar.</span>`;else msg.innerHTML=`<b>${esc(monthLabel)} ${year} ainda não começou.</b><span>Os dados aparecerão conforme os pagamentos forem registrados.</span>`}
  const grid=$('#monthlyCloseGrid');if(grid)grid.innerHTML=`<div class="monthly-close-stat"><span>Recebido</span><b class="money">${brl(s.received)}</b></div><div class="monthly-close-stat"><span>Previsto</span><b class="money">${brl(s.expected)}</b></div><div class="monthly-close-stat"><span>Custos</span><b class="money">${brl(s.costTotal)}</b></div><div class="monthly-close-stat"><span>Resultado</span><b class="money">${brl(s.net)}</b></div><div class="monthly-close-stat"><span>Novos clientes</span><b>${s.newClients.length}</b></div><div class="monthly-close-stat"><span>Renovações</span><b>${s.renewals}</b></div><div class="monthly-close-stat"><span>Cancelamentos</span><b>${s.canceled.length}</b></div><div class="monthly-close-stat"><span>Pagamentos</span><b>${s.paymentCount}</b></div>`;
  const list=$('#monthlyNewClients');if(list)list.innerHTML=s.newClients.length?s.newClients.slice().sort((a,b)=>a.start.localeCompare(b.start)).map(c=>{const first=(c.payments||[]).slice().sort((a,b)=>a.date.localeCompare(b.date))[0],sameMonth=first&&first.date.slice(0,7)===`${year}-${String(month+1).padStart(2,'0')}`;return `<div class="monthly-client-row"><div><b>${esc(c.name)}</b><small>${esc(c.plan)} · ${esc(c.source||'Origem não informada')}</small></div><span class="entry-date">Entrou ${formatDate(c.start)}</span><span class="entry-value money">${sameMonth?`1º pagamento ${brl(first.value)}`:`Plano ${brl(c.value)}`}</span></div>`}).join(''):'<div class="empty">Nenhum cliente entrou neste mês.</div>';$$('.money').forEach(e=>e.dataset.raw=e.textContent);applyPrivacy();
@@ -6136,8 +6915,46 @@ function exportClientsCSV(){
  const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n');download('clientes.csv','text/csv;charset=utf-8','\ufeff'+csv)
 }
 function exportBackup(){download('backup-painel.json','application/json',JSON.stringify(db,null,2))}
-function importBackup(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);ensureDataShape();persist();applyTheme();refreshAll();alert('Backup importado.')}catch{alert('Arquivo inválido.')}};r.readAsText(file)}
-function resetDemo(){if(!confirm('Restaurar os dados de exemplo?'))return;db=demo();ensureDataShape();persist();applyTheme();refreshAll()}
+function importBackup(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);ensureDataShape();if(db.settings.name||db.clients.length||db.costs.length)db.settings.onboardingDone=true;persist();applyTheme();refreshAll();showOnboardingIfNeeded();alert('Backup importado.')}catch{alert('Arquivo inválido.')}};r.readAsText(file)}
+function shouldShowOnboarding(){
+ return !db.settings.onboardingDone&&!db.settings.name&&db.clients.length===0&&db.costs.length===0&&allPayments().length===0;
+}
+function showOnboardingIfNeeded(){
+ const modal=$('#onboardingModal');if(!modal)return;
+ const open=shouldShowOnboarding();
+ modal.classList.toggle('open',open);
+ modal.setAttribute('aria-hidden',open?'false':'true');
+ if(open)setTimeout(()=>$('#onboardingName')?.focus(),80);
+}
+function saveOnboarding(e){
+ e.preventDefault();
+ const name=$('#onboardingName').value.trim();
+ if(!name)return;
+ db.settings.name=name;
+ db.settings.pix=$('#onboardingPix').value.trim();
+ db.settings.onboardingDone=true;
+ persist();
+ closeModal('onboardingModal');
+ refreshAll();
+ showPanelToast('Painel configurado');
+}
+function clearAllData(){
+ if(!confirm('Apagar todos os clientes, pagamentos, cobranças, custos e configurações deste navegador?\n\nEsta ação não pode ser desfeita. Exporte um backup antes se precisar guardar os dados.'))return;
+ localStorage.removeItem('subscription_panel_v1');
+ localStorage.removeItem('subscription_panel_v2');
+ localStorage.removeItem(STORAGE_KEY);
+ db=emptyDb();
+ ensureDataShape();
+ persist();
+ applyTheme();
+ closeNotifications();
+ closeModal('detailModal');
+ closeModal('clientModal');
+ closeModal('paymentModal');
+ closeModal('costModal');
+ refreshAll();
+ showOnboardingIfNeeded();
+}
 function download(name,type,content){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
 
 function goPage(name){
@@ -6162,12 +6979,12 @@ $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-pag
 $('#statusFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;activeStatus=b.dataset.filter;$$('#statusFilters .chip').forEach(x=>x.classList.toggle('active',x===b));renderClients()});
 $('#billingFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;setBillingFilter(b.dataset.billingFilter);});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
-$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='onboardingModal')m.classList.remove('open')}));
 document.addEventListener('click',e=>{const panel=$('#notificationPanel');if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&!e.target.closest('.notification-btn'))closeNotifications()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNotifications()});
 window.addEventListener('resize',()=>{if($('#page-inicio').classList.contains('active'))renderHomeStatusChart();if($('#page-relatorios').classList.contains('active'))renderCharts()});
 
-applyTheme();refreshAll();
+applyTheme();refreshAll();showOnboardingIfNeeded();
 </script>
 </body>
 </html>
