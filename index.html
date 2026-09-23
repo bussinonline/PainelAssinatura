@@ -5515,6 +5515,59 @@ body:has(#page-config.active) .fab{
   }
 }
 
+
+/* ===== V34 • LEMBRETE E COBRANÇA SEPARADOS ===== */
+#detailContent .communication-actions{
+  align-items:stretch;
+}
+
+#detailContent .communication-actions .client-action-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+#detailContent .communication-actions .client-action-btn span{
+  font-size:13px;
+  line-height:1;
+}
+
+#detailContent .communication-reminder{
+  border-color:rgba(85,202,239,.20);
+  background:rgba(85,202,239,.055);
+  color:#8cdcf5;
+}
+
+#detailContent .communication-charge{
+  border-color:rgba(244,194,79,.20);
+  background:rgba(244,194,79,.055);
+  color:#f0cb72;
+}
+
+:root.light #detailContent .communication-reminder{
+  border-color:rgba(39,135,177,.20);
+  background:rgba(39,135,177,.055);
+  color:#17678a;
+}
+
+:root.light #detailContent .communication-charge{
+  border-color:rgba(166,116,19,.20);
+  background:rgba(166,116,19,.055);
+  color:#8a5b08;
+}
+
+@media(max-width:760px){
+  #detailContent .communication-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  #detailContent .communication-actions .client-action-btn{
+    min-height:48px;
+    padding:9px 8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -6126,11 +6179,11 @@ body:has(#page-config.active) .fab{
 
             <div class="message-template-card overdue">
               <div class="message-template-head">
-                <span class="message-stage">APÓS O VENCIMENTO</span>
-                <h3>Pagamento atrasado</h3>
-                <p>Utilizada quando o vencimento já passou e ainda há cobrança pendente.</p>
+                <span class="message-stage">VENCIDO OU PENDENTE</span>
+                <h3>Cobrança</h3>
+                <p>Utilizada para regularizar assinaturas vencidas ou com pagamento pendente.</p>
               </div>
-              <textarea id="msgOverdue" onchange="saveSettings()" aria-label="Mensagem de pagamento atrasado"></textarea>
+              <textarea id="msgOverdue" onchange="saveSettings()" aria-label="Mensagem de cobrança"></textarea>
             </div>
 
             <div class="message-template-card paid">
@@ -6145,7 +6198,7 @@ body:has(#page-config.active) .fab{
 
           <div class="message-token-help config-token-help">
             <b>Campos automáticos:</b>
-            <span>{nome}</span><span>{valor}</span><span>{vencimento}</span><span>{plano}</span><span>{pix}</span>
+            <span>{nome}</span><span>{valor}</span><span>{vencimento}</span><span>{plano}</span><span>{chave_pix}</span>
           </div>
         </section>
 
@@ -6386,6 +6439,33 @@ const addDays=(d,n)=>{let x=typeof d==='string'?iso(d):new Date(d);x.setDate(x.g
 const daysDiff=(a,b)=>Math.round((iso(a)-iso(b))/86400000);
 const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
 
+const LEGACY_MSG_REMINDER='Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.';
+const LEGACY_MSG_OVERDUE='Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.';
+
+const DEFAULT_MSG_REMINDER=`Olá, {nome}! Tudo bem? 😊
+
+Passando para te lembrar que sua assinatura do plano {plano}, no valor de R$ {valor}, vence no dia {vencimento}.
+
+Para continuar aproveitando seu acesso normalmente, você pode realizar o pagamento pelo Pix abaixo 👇
+
+Pix: {chave_pix}
+
+Após realizar o pagamento, se puder, me envie o comprovante. 😉
+
+Caso já tenha realizado o pagamento, pode desconsiderar esta mensagem. Obrigado! 🙏`;
+
+const DEFAULT_MSG_CHARGE=`Olá, {nome}! Tudo certo? 😊
+
+Verificamos que sua assinatura do plano {plano}, no valor de R$ {valor}, está pendente desde {vencimento}.
+
+Para regularizar seu acesso, o pagamento pode ser feito pelo Pix abaixo 👇
+
+Pix: {chave_pix}
+
+Assim que realizar o pagamento, é só me enviar o comprovante para atualizarmos sua assinatura. ✅
+
+Se você já realizou o pagamento, pode desconsiderar esta mensagem.`;
+
 const STORAGE_KEY='subscription_panel_v3';
 const emptyDb=()=>({
  clients:[],
@@ -6397,9 +6477,9 @@ const emptyDb=()=>({
   theme:'dark',
   onboardingDone:false,
   notificationReadKeys:[],
-  msgReminder:'Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.',
+  msgReminder:DEFAULT_MSG_REMINDER,
   msgDue:'Olá, {nome}! Tudo bem? Sua assinatura de {plano}, no valor de {valor}, vence hoje ({vencimento}). Pix: {pix}',
-  msgOverdue:'Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.',
+  msgOverdue:DEFAULT_MSG_CHARGE,
   msgPaid:'Olá, {nome}! Pagamento de {valor} confirmado. Sua assinatura está renovada por mais 30 dias. Obrigado!'
  }
 });
@@ -6415,9 +6495,9 @@ function ensureDataShape(){
  db.settings.pix=typeof db.settings.pix==='string'?db.settings.pix:'';
  db.settings.theme=db.settings.theme==='light'?'light':'dark';
  db.settings.privacy=Boolean(db.settings.privacy);
- db.settings.msgReminder=db.settings.msgReminder||'Olá, {nome}! Tudo bem? Passando para lembrar que sua assinatura de {plano}, no valor de {valor}, vence em {vencimento}. Caso já tenha pago, pode desconsiderar.';
+ if(!db.settings.msgReminder||db.settings.msgReminder===LEGACY_MSG_REMINDER)db.settings.msgReminder=DEFAULT_MSG_REMINDER;
  db.settings.msgDue=db.settings.msgDue||'Olá, {nome}! Tudo bem? Sua assinatura de {plano}, no valor de {valor}, vence hoje ({vencimento}). Pix: {pix}';
- db.settings.msgOverdue=db.settings.msgOverdue||db.settings.msgBilling||'Olá, {nome}! Tudo bem? Identificamos que sua assinatura de {plano}, no valor de {valor}, venceu em {vencimento}. Pix: {pix}. Caso já tenha pago, pode desconsiderar.';
+ if(!db.settings.msgOverdue||db.settings.msgOverdue===LEGACY_MSG_OVERDUE)db.settings.msgOverdue=db.settings.msgBilling||DEFAULT_MSG_CHARGE;
  db.settings.msgPaid=db.settings.msgPaid||'Olá, {nome}! Pagamento de {valor} confirmado. Sua assinatura está renovada por mais 30 dias. Obrigado!';
  db.settings.notificationReadKeys=Array.isArray(db.settings.notificationReadKeys)?db.settings.notificationReadKeys:[];
  if(typeof db.settings.onboardingDone!=='boolean'){
@@ -6814,12 +6894,9 @@ function openDetail(id){
    ...bills.map(b=>({kind:'bill',title:b.label,sub:'WhatsApp',date:b.date}))
  ].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,8);
  const dueDays=daysDiff(c.due,todayISO());
- let billingAction='';
- if(c.status!=='cancelado'){
-   if(dueDays<0)billingAction=`<button class="client-action-btn danger" onclick="sendWhats('${c.id}','overdue')">Cobrar atraso</button>`;
-   else if(dueDays===0)billingAction=`<button class="client-action-btn warning" onclick="sendWhats('${c.id}','due')">Vence hoje</button>`;
-   else billingAction=`<button class="client-action-btn" onclick="sendWhats('${c.id}','reminder')">Lembrete</button>`;
- }
+ const reminderAction=c.status!=='cancelado'?`<button class="client-action-btn communication-reminder" onclick="sendWhats('${c.id}','reminder')" aria-label="Enviar lembrete para ${esc(c.name)}"><span aria-hidden="true">🔔</span> Enviar lembrete</button>`:'';
+ const chargeAction=c.status!=='cancelado'?`<button class="client-action-btn communication-charge" onclick="sendWhats('${c.id}','charge')" aria-label="Enviar cobrança para ${esc(c.name)}"><span aria-hidden="true">💰</span> Enviar cobrança</button>`:'';
+ const dueTodayAction=(c.status!=='cancelado'&&dueDays===0)?`<button class="client-action-btn warning" onclick="sendWhats('${c.id}','due')">Vence hoje</button>`:'';
  const registerPaymentAction=c.status!=='cancelado'?`<button class="client-action-btn success" onclick="openPayment('${c.id}')">Registrar pagamento</button>`:'';
  const addPaymentButton=c.status!=='cancelado'?`<button class="btn primary" onclick="openPayment('${c.id}')">+ Pagamento</button>`:'';
  const confirmPaidButton=(c.status!=='cancelado'&&pays.length)?`<button class="btn success" onclick="sendWhats('${c.id}','paid')">Confirmar por WhatsApp</button>`:'';
@@ -6853,8 +6930,10 @@ function openDetail(id){
      <div class="client-section-title">
        <div><h4>Ações rápidas</h4><p>Ações disponíveis conforme o vencimento atual do cliente.</p></div>
      </div>
-     <div class="client-profile-actions">
-       ${billingAction}
+     <div class="client-profile-actions communication-actions">
+       ${reminderAction}
+       ${chargeAction}
+       ${dueTodayAction}
        ${registerPaymentAction}
      </div>
    </div>`:''}
@@ -6963,20 +7042,51 @@ function deletePayment(clientId,payId){
  if(last)c.due=addDays(last.date,30);else if(c.start)c.due=addDays(c.start,30);
  persist();openDetail(clientId);refreshAll();
 }
+function personalizeClientMessage(template,c){
+ const money=brl(c.value).replace(/\u00a0/g,' ');
+ return String(template||'')
+  .replaceAll('R$ {valor}',money)
+  .replaceAll('{nome}',c.name||'')
+  .replaceAll('{plano}',c.plan||'')
+  .replaceAll('{valor}',money)
+  .replaceAll('{vencimento}',formatDate(c.due))
+  .replaceAll('{chave_pix}',db.settings.pix||'')
+  .replaceAll('{pix}',db.settings.pix||'');
+}
 function sendWhats(id,type='auto'){
  const c=db.clients.find(x=>x.id===id);if(!c||!c.phone)return alert('Cadastre o WhatsApp do cliente.');
  if(type==='auto'){
   const d=daysDiff(c.due,todayISO());
-  type=d<0?'overdue':d===0?'due':'reminder';
+  if(c.status==='pendente'||c.status==='atrasado'||d<0)type='charge';
+  else type=d===0?'due':'reminder';
  }
- const templates={reminder:db.settings.msgReminder,due:db.settings.msgDue,overdue:db.settings.msgOverdue,paid:db.settings.msgPaid};
- const labels={reminder:'Lembrete de vencimento',due:'Vencimento hoje',overdue:'Cobrança de atraso',paid:'Pagamento confirmado'};
- let tpl=templates[type]||db.settings.msgReminder;
- const msg=tpl.replaceAll('{nome}',c.name).replaceAll('{valor}',brl(c.value)).replaceAll('{vencimento}',formatDate(c.due)).replaceAll('{plano}',c.plan).replaceAll('{pix}',db.settings.pix||'');
+ if(type==='overdue')type='charge';
+
+ const templates={
+  reminder:db.settings.msgReminder,
+  charge:db.settings.msgOverdue,
+  due:db.settings.msgDue,
+  paid:db.settings.msgPaid
+ };
+ const labels={
+  reminder:'Lembrete de vencimento',
+  charge:'Cobrança',
+  due:'Vencimento hoje',
+  paid:'Pagamento confirmado'
+ };
+ const tpl=templates[type]||db.settings.msgReminder;
+ const needsPix=tpl.includes('{chave_pix}')||tpl.includes('{pix}');
+ if(needsPix&&!String(db.settings.pix||'').trim()){
+  return alert('Cadastre sua chave Pix em Configurações antes de enviar esta mensagem.');
+ }
+ const msg=personalizeClientMessage(tpl,c);
  c.billing=c.billing||[];
  c.billing.push({id:uid(),date:new Date().toISOString(),type,label:labels[type]||'Mensagem'});
  persist();refreshAll();
- const phone=c.phone.replace(/\D/g,'');window.open(`https://wa.me/55${phone.startsWith('55')?phone.slice(2):phone}?text=${encodeURIComponent(msg)}`,'_blank');
+
+ const digits=String(c.phone||'').replace(/\D/g,'');
+ const phone=digits.startsWith('55')?digits:`55${digits}`;
+ window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
 function renderCalendar(){
