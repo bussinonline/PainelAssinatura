@@ -5568,6 +5568,277 @@ body:has(#page-config.active) .fab{
   }
 }
 
+
+/* ===== V36 • GRÁFICOS INTERATIVOS ===== */
+.chart-interactive-host{
+  position:relative;
+}
+
+.interactive-chart{
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.interactive-chart:focus-visible{
+  outline:2px solid rgba(90,140,255,.72);
+  outline-offset:3px;
+  border-radius:10px;
+}
+
+.chart-data-tooltip{
+  position:absolute;
+  z-index:18;
+  left:50%;
+  top:50%;
+  min-width:112px;
+  max-width:min(190px,calc(100% - 16px));
+  padding:8px 10px;
+  border:1px solid var(--line-strong);
+  border-radius:10px;
+  background:rgba(15,22,38,.96);
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+  color:#fff;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  transform:translate(-50%,-100%) translateY(-5px);
+  transition:opacity .14s ease,transform .14s ease,visibility .14s ease;
+  text-align:left;
+}
+
+.chart-data-tooltip.show{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,-100%) translateY(-9px);
+}
+
+.chart-data-tooltip b,
+.chart-data-tooltip span{
+  display:block;
+}
+
+.chart-data-tooltip b{
+  font-size:9.5px;
+  font-weight:650;
+  color:#b6c2d7;
+}
+
+.chart-data-tooltip span{
+  margin-top:3px;
+  font-size:12px;
+  font-weight:780;
+  color:#fff;
+}
+
+/* Entrada suave quando o gráfico chega à viewport. */
+.home-status-card,
+.chart-card{
+  transition:opacity .38s ease,transform .38s ease,border-color .18s ease;
+}
+
+.home-status-card:not(.chart-in-view),
+.chart-card:not(.chart-in-view){
+  opacity:.82;
+  transform:translateY(8px);
+}
+
+.home-status-card.chart-in-view,
+.chart-card.chart-in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+:root.light .chart-data-tooltip{
+  border-color:rgba(32,50,78,.18);
+  background:rgba(255,255,255,.98);
+  box-shadow:0 12px 28px rgba(32,50,78,.16);
+  color:var(--text);
+}
+
+:root.light .chart-data-tooltip b{
+  color:var(--muted);
+}
+
+:root.light .chart-data-tooltip span{
+  color:var(--text);
+}
+
+@media(prefers-reduced-motion:reduce){
+  .home-status-card,
+  .chart-card,
+  .chart-data-tooltip{
+    transition:none!important;
+  }
+}
+
+
+/* ===== V37 • AJUSTE DE CORTE NO CARD DE SITUAÇÃO ===== */
+.home-status-card{
+  min-height:0;
+  height:auto;
+  overflow:visible;
+}
+
+.home-status-card .home-status-body,
+.home-status-card .home-status-meta,
+.home-status-card .home-status-legend{
+  min-width:0;
+}
+
+.home-status-card .home-status-legend{
+  padding-bottom:2px;
+}
+
+.home-status-card .home-status-legend .status-row{
+  min-height:38px;
+}
+
+@media(max-width:760px){
+  .home-status-card{
+    padding-bottom:14px;
+  }
+
+  .home-status-card .home-status-body{
+    gap:12px;
+    align-items:flex-start;
+  }
+
+  .home-status-card .home-status-legend{
+    gap:4px;
+    padding-bottom:4px;
+  }
+
+  .home-status-card .home-status-legend .status-row{
+    min-height:36px;
+  }
+}
+
+@media(min-width:761px){
+  .home-status-card{
+    padding-bottom:12px;
+  }
+
+  .home-status-card .home-status-body{
+    align-items:flex-start;
+  }
+
+  .home-status-card .home-status-legend{
+    padding-bottom:4px;
+  }
+}
+
+
+/* ===== V38 • GRÁFICO DE STATUS SEM CORTE + INTERAÇÃO VISÍVEL ===== */
+.status-chart-card{
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+  padding-bottom:16px;
+}
+
+.status-chart-card .donut-card-body{
+  min-height:0;
+  height:auto;
+  justify-content:flex-start;
+  overflow:visible;
+  padding-bottom:4px;
+}
+
+.status-chart-card #statusDonut{
+  flex:0 0 auto;
+  height:210px;
+  min-height:210px;
+  max-height:210px;
+}
+
+.status-chart-card #statusDonutLegend{
+  width:100%;
+  max-width:430px;
+  padding:0 4px 4px;
+  overflow:visible;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px 10px;
+}
+
+.status-chart-card .donut-legend-action{
+  width:100%;
+  min-width:0;
+  min-height:42px;
+  margin:0;
+  padding:8px 9px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel2);
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+  font:inherit;
+}
+
+.status-chart-card .donut-legend-action span:nth-child(2){
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.status-chart-card .donut-legend-action b{
+  margin-left:auto;
+  flex:0 0 auto;
+  font-size:11px;
+}
+
+.status-chart-card .donut-legend-action:active{
+  transform:translateY(1px);
+}
+
+.status-chart-card .donut-legend-action:focus-visible{
+  outline:2px solid rgba(90,140,255,.72);
+  outline-offset:2px;
+}
+
+@media(max-width:760px){
+  .status-chart-card{
+    overflow:visible!important;
+    padding-bottom:14px;
+  }
+
+  .status-chart-card #statusDonut{
+    height:190px;
+    min-height:190px;
+    max-height:190px;
+  }
+
+  .status-chart-card #statusDonutLegend{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px;
+    padding-bottom:4px;
+  }
+
+  .status-chart-card .donut-legend-action{
+    min-height:40px;
+    padding:7px 8px;
+    gap:7px;
+    font-size:10.5px;
+  }
+
+  .status-chart-card .donut-legend-dot{
+    width:9px;
+    height:9px;
+    flex-basis:9px;
+  }
+}
+
+@media(max-width:360px){
+  .status-chart-card #statusDonutLegend{
+    grid-template-columns:1fr!important;
+  }
+}
+
+:root.light .status-chart-card .donut-legend-action{
+  background:#fff;
+}
+
 </style>
 </head>
 <body>
@@ -6069,7 +6340,7 @@ body:has(#page-config.active) .fab{
       <div class="annual-section-head"><div><h2 id="annualChartTitle">Visão anual</h2><p>Faturamento de janeiro a dezembro e situação atual da base.</p></div></div>
       <div class="report-grid">
         <div class="card chart-card"><div class="section-head" style="margin-top:0"><div><h2>Faturamento por mês</h2><p>A evolução considera a data de cada pagamento registrado.</p></div></div><canvas id="revenueChart"></canvas></div>
-        <div class="card chart-card"><div class="section-head" style="margin-top:0"><div><h2>Clientes por status</h2><p>Situação atual da base, independente do ano selecionado.</p></div></div><div class="donut-card-body"><canvas id="statusDonut"></canvas><div id="statusDonutLegend" class="donut-legend"></div></div></div>
+        <div class="card chart-card status-chart-card"><div class="section-head" style="margin-top:0"><div><h2>Clientes por status</h2><p>Situação atual da base, independente do ano selecionado.</p></div></div><div class="donut-card-body"><canvas id="statusDonut"></canvas><div id="statusDonutLegend" class="donut-legend" aria-label="Legenda interativa do gráfico de clientes por status"></div></div></div>
       </div>
 
       <div class="annual-summary-strip">
@@ -6888,17 +7159,11 @@ function saveClient(e){
 function openDetail(id){
  const c=db.clients.find(x=>x.id===id);if(!c)return;const [sc,sl]=statusLabel(c);
  const pays=(c.payments||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
- const bills=(c.billing||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
- const events=[
-   ...pays.map(p=>({kind:'pay',title:`Pagamento recebido · ${brl(p.value)}`,sub:`${p.method}${p.note?' · '+p.note:''}`,date:p.date})),
-   ...bills.map(b=>({kind:'bill',title:b.label,sub:'WhatsApp',date:b.date}))
- ].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,8);
  const dueDays=daysDiff(c.due,todayISO());
  const reminderAction=c.status!=='cancelado'?`<button class="client-action-btn communication-reminder" onclick="sendWhats('${c.id}','reminder')" aria-label="Enviar lembrete para ${esc(c.name)}"><span aria-hidden="true">🔔</span> Enviar lembrete</button>`:'';
  const chargeAction=c.status!=='cancelado'?`<button class="client-action-btn communication-charge" onclick="sendWhats('${c.id}','charge')" aria-label="Enviar cobrança para ${esc(c.name)}"><span aria-hidden="true">💰</span> Enviar cobrança</button>`:'';
  const dueTodayAction=(c.status!=='cancelado'&&dueDays===0)?`<button class="client-action-btn warning" onclick="sendWhats('${c.id}','due')">Vence hoje</button>`:'';
  const registerPaymentAction=c.status!=='cancelado'?`<button class="client-action-btn success" onclick="openPayment('${c.id}')">Registrar pagamento</button>`:'';
- const addPaymentButton=c.status!=='cancelado'?`<button class="btn primary" onclick="openPayment('${c.id}')">+ Pagamento</button>`:'';
  const confirmPaidButton=(c.status!=='cancelado'&&pays.length)?`<button class="btn success" onclick="sendWhats('${c.id}','paid')">Confirmar por WhatsApp</button>`:'';
 
  $('#detailContent').innerHTML=`
@@ -6937,61 +7202,6 @@ function openDetail(id){
        ${registerPaymentAction}
      </div>
    </div>`:''}
-
-   <div class="client-timeline-card">
-     <div class="client-timeline-head">
-       <h4>Atividade recente</h4>
-       <span>${events.length} registro(s)</span>
-     </div>
-     ${events.length?`<div class="client-timeline">${events.map(e=>`
-       <div class="client-timeline-item">
-         <span class="timeline-dot ${e.kind}">${e.kind==='pay'?'✓':'↗'}</span>
-         <span><b>${esc(e.title)}</b><small>${esc(e.sub)}</small></span>
-         <span class="client-timeline-date">${e.date.includes('T')?formatDateTime(e.date):formatDate(e.date)}</span>
-       </div>`).join('')}</div>`:'<div class="empty">Nenhuma atividade registrada ainda.</div>'}
-   </div>
-
-   <div>
-     <div class="client-section-title">
-       <div><h4>Histórico de pagamentos</h4><p>${pays.length} pagamento(s) registrado(s).</p></div>
-       ${addPaymentButton}
-     </div>
-     ${pays.length?`
-       <div class="table-wrap client-history-desktop"><table class="table"><thead><tr><th>Data</th><th>Valor</th><th>Método</th><th>Observação</th><th></th></tr></thead><tbody>${pays.map(p=>`<tr><td>${formatDate(p.date)}</td><td class="money">${brl(p.value)}</td><td>${esc(p.method)}</td><td>${esc(p.note||'-')}</td><td><button class="tiny" onclick="openPayment('${c.id}','${p.id}')">✎</button> <button class="tiny" onclick="deletePayment('${c.id}','${p.id}')">✕</button></td></tr>`).join('')}</tbody></table></div>
-       <div class="client-history-mobile">${pays.map(p=>`
-         <div class="client-history-card">
-           <div class="client-history-card-main">
-             <div><span>Data</span><b>${formatDate(p.date)}</b></div>
-             <div><span>Valor</span><b class="money">${brl(p.value)}</b></div>
-           </div>
-           <div class="client-history-card-meta">
-             <span>${esc(p.method)}</span>
-             <span>${esc(p.note||'Sem observação')}</span>
-           </div>
-           <div class="client-history-card-actions">
-             <button class="tiny" onclick="openPayment('${c.id}','${p.id}')" aria-label="Editar pagamento">✎ Editar</button>
-             <button class="tiny danger-soft" onclick="deletePayment('${c.id}','${p.id}')" aria-label="Excluir pagamento">✕ Excluir</button>
-           </div>
-         </div>`).join('')}</div>
-     `:'<div class="empty">Nenhum pagamento registrado.</div>'}
-   </div>
-
-   <div>
-     <div class="client-section-title">
-       <div><h4>Histórico de cobranças</h4><p>${bills.length} ação(ões) registrada(s).</p></div>
-     </div>
-     ${bills.length?`
-       <div class="table-wrap client-history-desktop"><table class="table"><thead><tr><th>Data</th><th>Ação</th><th>Canal</th></tr></thead><tbody>${bills.map(b=>`<tr><td>${formatDateTime(b.date)}</td><td>${esc(b.label)}</td><td>WhatsApp</td></tr>`).join('')}</tbody></table></div>
-       <div class="client-history-mobile">${bills.map(b=>`
-         <div class="client-history-card billing-history-card">
-           <div class="client-history-card-main">
-             <div><span>Data</span><b>${formatDateTime(b.date)}</b></div>
-             <div><span>Canal</span><b>WhatsApp</b></div>
-           </div>
-           <div class="client-history-card-meta single"><span>${esc(b.label)}</span></div>
-         </div>`).join('')}</div>
-     `:'<div class="empty">Nenhuma cobrança registrada.</div>'}
-   </div>
 
    <div class="modal-foot client-profile-footer">
      <button class="btn danger" onclick="deleteClient('${c.id}')">Excluir cliente</button>
@@ -7421,11 +7631,163 @@ function statusChartData(){
  ]
 }
 const chartAnimationFrames={};
+const chartInteractionState={};
+let chartTooltipTimer=null;
 function easeOutCubic(t){return 1-Math.pow(1-t,3)}
 function cancelChartAnimation(id){
  if(chartAnimationFrames[id])cancelAnimationFrame(chartAnimationFrames[id]);
  chartAnimationFrames[id]=null;
 }
+
+function chartValueText(value,format='number'){
+ if(format==='money')return db.settings.privacy?'••••':brl(Number(value||0));
+ return String(value??0);
+}
+function ensureChartTooltip(target){
+ const host=target.closest('.chart-card,.home-status-card')||target.parentElement;
+ if(!host)return null;
+ host.classList.add('chart-interactive-host');
+ let tip=host.querySelector('.chart-data-tooltip');
+ if(!tip){
+  tip=document.createElement('div');
+  tip.className='chart-data-tooltip';
+  tip.setAttribute('role','status');
+  tip.setAttribute('aria-live','polite');
+  host.appendChild(tip);
+ }
+ return tip;
+}
+function hideChartTooltip(target,delay=0){
+ const tip=ensureChartTooltip(target);if(!tip)return;
+ clearTimeout(chartTooltipTimer);
+ const hide=()=>tip.classList.remove('show');
+ if(delay)chartTooltipTimer=setTimeout(hide,delay);else hide();
+}
+function showChartTooltip(target,event,title,value,format='number'){
+ const tip=ensureChartTooltip(target);if(!tip)return;
+ clearTimeout(chartTooltipTimer);
+ const host=tip.parentElement,rect=host.getBoundingClientRect();
+ const clientX=event.clientX??(rect.left+rect.width/2);
+ const clientY=event.clientY??(rect.top+rect.height/2);
+ let x=clientX-rect.left,y=clientY-rect.top-10;
+ tip.innerHTML=`<b>${esc(title)}</b><span class="${format==='money'?'money':''}">${esc(chartValueText(value,format))}</span>`;
+ tip.classList.add('show');
+ const tipWidth=tip.offsetWidth||130,tipHeight=tip.offsetHeight||48;
+ x=Math.max(tipWidth/2+8,Math.min(rect.width-tipWidth/2-8,x));
+ y=Math.max(tipHeight+8,Math.min(rect.height-8,y));
+ tip.style.left=`${x}px`;
+ tip.style.top=`${y}px`;
+ if(format==='money'&&db.settings.privacy)tip.querySelector('span').textContent='••••';
+}
+function nearestLinePoint(canvas,event){
+ const state=chartInteractionState[canvas.id];if(!state||state.type!=='line')return null;
+ const rect=canvas.getBoundingClientRect();
+ const x=(event.clientX-rect.left)*(state.width/rect.width);
+ const y=(event.clientY-rect.top)*(state.height/rect.height);
+ let best=null;
+ state.points.forEach((pt,i)=>{
+  if(pt.y===null||pt.value===null)return;
+  const dist=Math.hypot(x-pt.x,y-pt.y);
+  if(!best||dist<best.dist)best={...pt,index:i,dist,label:state.labels[i]};
+ });
+ return best;
+}
+function donutSegmentAt(canvas,event){
+ const state=chartInteractionState[canvas.id];if(!state||state.type!=='donut')return null;
+ const rect=canvas.getBoundingClientRect();
+ const x=(event.clientX-rect.left)*(state.width/rect.width);
+ const y=(event.clientY-rect.top)*(state.height/rect.height);
+ const dx=x-state.cx,dy=y-state.cy,dist=Math.hypot(dx,dy);
+ if(dist<state.radius-state.thickness/2-6||dist>state.radius+state.thickness/2+6)return null;
+ let angle=Math.atan2(dy,dx)+Math.PI/2;
+ if(angle<0)angle+=Math.PI*2;
+ let acc=0;
+ for(const item of state.segments){
+  const sweep=state.total>0?(Number(item.value||0)/state.total)*Math.PI*2:0;
+  if(angle>=acc&&angle<=acc+sweep)return item;
+  acc+=sweep;
+ }
+ return null;
+}
+function bindLineChartInteractions(canvas){
+ if(canvas.dataset.interactiveBound==='line')return;
+ canvas.dataset.interactiveBound='line';
+ canvas.classList.add('interactive-chart');
+ canvas.tabIndex=0;
+ canvas.setAttribute('role','img');
+
+ canvas.addEventListener('pointermove',event=>{
+  if(event.pointerType==='touch')return;
+  const pt=nearestLinePoint(canvas,event);
+  if(pt&&pt.dist<=20)showChartTooltip(canvas,event,pt.label,pt.value,'money');
+  else hideChartTooltip(canvas);
+ });
+ canvas.addEventListener('pointerleave',()=>hideChartTooltip(canvas));
+ canvas.addEventListener('click',event=>{
+  const pt=nearestLinePoint(canvas,event);
+  if(pt)showChartTooltip(canvas,event,pt.label,pt.value,'money');
+  hideChartTooltip(canvas,3200);
+ });
+}
+function bindDonutChartInteractions(canvas){
+ if(canvas.dataset.interactiveBound==='donut')return;
+ canvas.dataset.interactiveBound='donut';
+ canvas.classList.add('interactive-chart');
+ canvas.tabIndex=0;
+ canvas.setAttribute('role','img');
+
+ canvas.addEventListener('pointermove',event=>{
+  if(event.pointerType==='touch')return;
+  const item=donutSegmentAt(canvas,event);
+  if(item)showChartTooltip(canvas,event,item.label,item.value,item.format||'number');
+  else hideChartTooltip(canvas);
+ });
+ canvas.addEventListener('pointerleave',()=>hideChartTooltip(canvas));
+ canvas.addEventListener('click',event=>{
+  const state=chartInteractionState[canvas.id];
+  const item=donutSegmentAt(canvas,event);
+  if(item){
+   showChartTooltip(canvas,event,item.label,item.value,item.format||'number');
+  }else if(state&&state.total===0){
+   showChartTooltip(canvas,event,'Clientes na base',0,'number');
+  }
+  hideChartTooltip(canvas,3200);
+ });
+}
+function bindHomeDonutInteractions(){
+ const chart=$('#homeStatusDonut');if(!chart||chart.dataset.interactiveBound==='home')return;
+ chart.dataset.interactiveBound='home';
+ chart.classList.add('interactive-chart');
+ chart.tabIndex=0;
+ chart.setAttribute('aria-label','Recebimentos do período. Toque ou passe o mouse para ver os valores.');
+
+ const pick=(event)=>{
+  const received=Number(homeFinancialState.received||0),toReceive=Number(homeFinancialState.toReceive||0),total=received+toReceive;
+  if(total<=0)return null;
+  const rect=chart.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  const dx=event.clientX-cx,dy=event.clientY-cy;
+  const dist=Math.hypot(dx,dy),radius=Math.min(rect.width,rect.height)/2;
+  if(dist<radius*.50||dist>radius*1.04)return null;
+  let angle=Math.atan2(dy,dx)+Math.PI/2;if(angle<0)angle+=Math.PI*2;
+  const receivedSweep=(received/total)*Math.PI*2;
+  return angle<=receivedSweep
+   ?{label:'Recebido',value:received}
+   :{label:'A receber',value:toReceive};
+ };
+ chart.addEventListener('pointermove',event=>{
+  if(event.pointerType==='touch')return;
+  const item=pick(event);
+  if(item)showChartTooltip(chart,event,item.label,item.value,'money');
+  else hideChartTooltip(chart);
+ });
+ chart.addEventListener('pointerleave',()=>hideChartTooltip(chart));
+ chart.addEventListener('click',event=>{
+  const item=pick(event);
+  if(item)showChartTooltip(chart,event,item.label,item.value,'money');
+  hideChartTooltip(chart,3200);
+ });
+}
+
 function drawChart(id,values,labels){
  const canvas=$(id);if(!canvas)return;
  cancelChartAnimation(id);
@@ -7438,6 +7800,8 @@ function drawChart(id,values,labels){
    const y=h-pad-(h-2*pad)*(v/max);
    return {x,y,value:v};
  });
+ chartInteractionState[canvas.id]={type:'line',width:w,height:h,points,labels:[...labels]};
+ bindLineChartInteractions(canvas);
  const drawBase=()=>{
    ctx.clearRect(0,0,w,h);
    ctx.strokeStyle=getCssVar('--line');ctx.lineWidth=1;
@@ -7480,6 +7844,8 @@ function drawDonutChart(id,segments){
  const ctx=canvas.getContext('2d'),dpr=devicePixelRatio||1,w=Math.max(canvas.clientWidth,260),h=canvas.clientHeight||240;
  canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
  const total=segments.reduce((sum,item)=>sum+Number(item.value||0),0),cx=w/2,cy=h/2,radius=Math.min(w,h)/2-24,thickness=34;
+ chartInteractionState[canvas.id]={type:'donut',width:w,height:h,cx,cy,radius,thickness,total,segments:segments.map(item=>({...item}))};
+ bindDonutChartInteractions(canvas);
  const paint=(progress)=>{
    ctx.clearRect(0,0,w,h);
    ctx.beginPath();ctx.strokeStyle=getCssVar('--line');ctx.lineWidth=thickness;ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.stroke();
@@ -7510,13 +7876,27 @@ function drawDonutChart(id,segments){
  };
  chartAnimationFrames[id]=requestAnimationFrame(step);
 }
+function showStatusLegendTooltip(event,label,value){
+ const target=$('#statusDonut');if(!target)return;
+ const rect=target.getBoundingClientRect();
+ const synthetic={
+  clientX:event?.clientX||rect.left+rect.width/2,
+  clientY:event?.clientY||rect.top+rect.height/2
+ };
+ showChartTooltip(target,synthetic,label,value,'number');
+ hideChartTooltip(target,3200);
+}
 function renderDonutLegend(id,segments,showValues=false){
  const box=$(id);if(!box)return;
- box.innerHTML=segments.map(item=>`<div class="donut-legend-item"><span class="donut-legend-dot" style="background:${item.color}"></span><span>${esc(item.label)}</span>${showValues?`<b style="margin-left:auto">${item.value}</b>`:''}</div>`).join('');
+ box.innerHTML=segments.map(item=>showValues
+  ?`<button type="button" class="donut-legend-item donut-legend-action" onclick="showStatusLegendTooltip(event,'${esc(item.label)}',${Number(item.value||0)})" aria-label="${esc(item.label)}: ${Number(item.value||0)}"><span class="donut-legend-dot" style="background:${item.color}"></span><span>${esc(item.label)}</span><b>${item.value}</b></button>`
+  :`<div class="donut-legend-item"><span class="donut-legend-dot" style="background:${item.color}"></span><span>${esc(item.label)}</span></div>`
+ ).join('');
 }
 let homeDonutAnimationFrame=null;
 function renderHomeStatusChart(){
  const chart=$('#homeStatusDonut');if(!chart)return;
+ bindHomeDonutInteractions();
  if(homeDonutAnimationFrame)cancelAnimationFrame(homeDonutAnimationFrame);
  const received=Number(homeFinancialState.received||0),toReceive=Number(homeFinancialState.toReceive||0),expected=received+toReceive;
  const pct=expected>0?Math.min(100,(received/expected)*100):(received>0?100:0);
@@ -7634,7 +8014,7 @@ function exportClientsCSV(){
  const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n');download('clientes.csv','text/csv;charset=utf-8','\ufeff'+csv)
 }
 function exportBackup(){download('backup-painel.json','application/json',JSON.stringify(db,null,2))}
-function importBackup(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);ensureDataShape();if(db.settings.name||db.clients.length||db.costs.length)db.settings.onboardingDone=true;persist();applyTheme();refreshAll();showOnboardingIfNeeded();alert('Backup importado.')}catch{alert('Arquivo inválido.')}};r.readAsText(file)}
+function importBackup(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);ensureDataShape();if(db.settings.name||db.clients.length||db.costs.length)db.settings.onboardingDone=true;persist();applyTheme();refreshAll();showOnboardingIfNeeded();setupChartRevealAnimations();alert('Backup importado.')}catch{alert('Arquivo inválido.')}};r.readAsText(file)}
 function shouldShowOnboarding(){
  return !db.settings.onboardingDone&&!db.settings.name&&db.clients.length===0&&db.costs.length===0&&allPayments().length===0;
 }
@@ -7698,6 +8078,23 @@ $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-pag
 $('#statusFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;activeStatus=b.dataset.filter;$$('#statusFilters .chip').forEach(x=>x.classList.toggle('active',x===b));renderClients()});
 $('#billingFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;setBillingFilter(b.dataset.billingFilter);});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
+
+function setupChartRevealAnimations(){
+ const targets=[...document.querySelectorAll('.home-status-card,.chart-card')];
+ if(!('IntersectionObserver' in window)){
+  targets.forEach(el=>el.classList.add('chart-in-view'));
+  return;
+ }
+ const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   entry.target.classList.add('chart-in-view');
+   observer.unobserve(entry.target);
+  });
+ },{threshold:.18});
+ targets.forEach(el=>observer.observe(el));
+}
+
 $$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='onboardingModal')m.classList.remove('open')}));
 document.addEventListener('click',e=>{const panel=$('#notificationPanel');if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&!e.target.closest('.notification-btn'))closeNotifications()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNotifications()});
