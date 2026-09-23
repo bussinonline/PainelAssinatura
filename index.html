@@ -5839,6 +5839,183 @@ body:has(#page-config.active) .fab{
   background:#fff;
 }
 
+
+/* ===== V39 • AÇÕES DO CLIENTE REORGANIZADAS ===== */
+#detailContent .client-action-panel{
+  display:grid;
+  gap:10px;
+  width:100%;
+  min-width:0;
+  margin-top:2px;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--panel2);
+}
+
+#detailContent .client-action-heading{
+  margin:0;
+  padding:0 0 2px;
+}
+
+#detailContent .client-action-heading h4{
+  margin:0;
+  font-size:13px;
+  font-weight:760;
+  letter-spacing:-.015em;
+}
+
+#detailContent .client-action-heading p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:9.8px;
+  line-height:1.35;
+}
+
+#detailContent .client-action-financial{
+  display:grid;
+  gap:8px;
+  width:100%;
+  min-width:0;
+}
+
+#detailContent .client-action-primary,
+#detailContent .client-action-pair,
+#detailContent .client-action-conditional,
+#detailContent .client-action-admin{
+  width:100%;
+  min-width:0;
+}
+
+#detailContent .client-action-primary{
+  display:grid;
+  grid-template-columns:1fr;
+}
+
+#detailContent .client-action-primary .client-action-btn{
+  width:100%;
+  min-width:0;
+  min-height:46px;
+  font-weight:760;
+  border-color:rgba(47,211,154,.24);
+  background:rgba(47,211,154,.085);
+  color:#69e4bc;
+}
+
+#detailContent .client-action-pair{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+
+#detailContent .client-action-pair .client-action-btn{
+  width:100%;
+  min-width:0;
+  min-height:44px;
+  padding:9px 8px;
+}
+
+#detailContent .client-action-conditional{
+  display:grid;
+  grid-template-columns:1fr;
+}
+
+#detailContent .client-action-conditional .client-action-btn,
+#detailContent .client-action-conditional .btn{
+  width:100%;
+  min-width:0;
+  min-height:42px;
+}
+
+#detailContent .client-action-divider{
+  width:100%;
+  height:1px;
+  margin:1px 0 0;
+  background:var(--line);
+}
+
+#detailContent .client-action-admin{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+
+#detailContent .client-action-admin .btn{
+  width:100%;
+  min-width:0;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:9px 10px;
+  border-radius:10px;
+  white-space:normal;
+  line-height:1.2;
+}
+
+#detailContent .client-edit-btn{
+  background:var(--panel);
+}
+
+#detailContent .client-delete-btn{
+  border-color:rgba(255,107,122,.24);
+  background:rgba(255,107,122,.065);
+  color:#ff91a0;
+}
+
+:root.light #detailContent .client-action-panel{
+  background:#f7f9fc;
+}
+
+:root.light #detailContent .client-action-primary .client-action-btn{
+  border-color:rgba(24,142,103,.20);
+  background:rgba(24,142,103,.07);
+  color:#116f50;
+}
+
+:root.light #detailContent .client-edit-btn{
+  background:#fff;
+}
+
+:root.light #detailContent .client-delete-btn{
+  border-color:rgba(195,61,81,.20);
+  background:rgba(195,61,81,.055);
+  color:#b83246;
+}
+
+@media(max-width:760px){
+  #detailContent .client-action-panel{
+    gap:9px;
+    padding:11px;
+  }
+
+  #detailContent .client-action-heading h4{
+    font-size:12.5px;
+  }
+
+  #detailContent .client-action-heading p{
+    font-size:9.5px;
+  }
+
+  #detailContent .client-action-pair{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+
+  #detailContent .client-action-primary .client-action-btn,
+  #detailContent .client-action-pair .client-action-btn,
+  #detailContent .client-action-admin .btn{
+    min-height:46px;
+  }
+}
+
+@media(max-width:340px){
+  #detailContent .client-action-pair{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -7191,22 +7368,41 @@ function openDetail(id){
    ${c.cancelReason?`<div class="client-profile-note"><b>Motivo do cancelamento</b><div>${esc(c.cancelReason)}</div></div>`:''}
    ${c.notes?`<div class="client-profile-note"><b>Observações</b><div>${esc(c.notes)}</div></div>`:''}
 
-   ${c.status!=='cancelado'?`<div>
-     <div class="client-section-title">
-       <div><h4>Ações rápidas</h4><p>Ações disponíveis conforme o vencimento atual do cliente.</p></div>
+   <div class="client-action-panel">
+     <div class="client-section-title client-action-heading">
+       <div>
+         <h4>Ações do cliente</h4>
+         <p>Gerencie pagamentos, cobranças e cadastro.</p>
+       </div>
      </div>
-     <div class="client-profile-actions communication-actions">
-       ${reminderAction}
-       ${chargeAction}
-       ${dueTodayAction}
-       ${registerPaymentAction}
-     </div>
-   </div>`:''}
 
-   <div class="modal-foot client-profile-footer">
-     <button class="btn danger" onclick="deleteClient('${c.id}')">Excluir cliente</button>
-     <button class="btn" onclick="openClientModal('${c.id}');closeModal('detailModal')">Editar cadastro</button>
-     ${confirmPaidButton}
+     ${c.status!=='cancelado'?`
+       <div class="client-action-financial">
+         <div class="client-action-primary">
+           ${registerPaymentAction}
+         </div>
+
+         <div class="client-action-pair">
+           ${reminderAction}
+           ${chargeAction}
+         </div>
+
+         ${dueTodayAction?`<div class="client-action-conditional">${dueTodayAction}</div>`:''}
+         ${confirmPaidButton?`<div class="client-action-conditional">${confirmPaidButton}</div>`:''}
+       </div>
+     `:''}
+
+     <div class="client-action-divider" aria-hidden="true"></div>
+
+     <div class="client-action-admin">
+       <button class="btn client-edit-btn" onclick="openClientModal('${c.id}');closeModal('detailModal')">
+         <span aria-hidden="true">⚙️</span> Editar cadastro
+       </button>
+
+       <button class="btn danger client-delete-btn" onclick="deleteClient('${c.id}')">
+         <span aria-hidden="true">🗑️</span> Excluir cliente
+       </button>
+     </div>
    </div>
  </div>`;
  $('#detailModal').classList.add('open');applyPrivacy();
