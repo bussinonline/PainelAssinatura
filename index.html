@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Painel de Assinaturas V7</title>
 <style>
 :root{
@@ -5091,6 +5091,248 @@ body:has(#page-config.active) .fab{
   margin-bottom:12px;
 }
 
+
+/* ===== V31 • MODAL NOVO CLIENTE REFINADO ===== */
+#clientModal{
+  overscroll-behavior:contain;
+}
+#clientModal .client-modal-box{
+  width:min(680px,100%);
+  max-height:min(92dvh,820px);
+  padding:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+#clientModal .client-modal-head{
+  position:relative;
+  top:auto;
+  z-index:4;
+  flex:0 0 auto;
+  min-height:58px;
+  margin:0;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  background:var(--bg);
+}
+#clientModal .client-modal-head h3{
+  min-width:0;
+  font-size:17px;
+}
+#clientModal .client-modal-head .icon-btn{
+  width:40px;
+  height:40px;
+  padding:0;
+  flex:0 0 40px;
+  display:grid;
+  place-items:center;
+}
+#clientModal .client-modal-form{
+  min-height:0;
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+#clientModal .client-modal-scroll{
+  min-height:0;
+  flex:1 1 auto;
+  padding:16px 18px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+#clientModal .client-form-grid,
+#clientModal .client-form-grid>*{
+  min-width:0;
+}
+#clientModal .client-form-grid{
+  align-items:start;
+}
+#clientModal .field input,
+#clientModal .field select,
+#clientModal .field textarea{
+  min-width:0;
+  max-width:100%;
+}
+#clientModal .client-custom-value{
+  display:grid;
+  gap:5px;
+  margin-top:7px;
+}
+#clientModal .client-custom-value[hidden]{
+  display:none!important;
+}
+#clientModal .client-custom-value small{
+  color:var(--muted2);
+  font-size:9.5px;
+  line-height:1.35;
+}
+#clientModal .client-first-payment{
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--panel2);
+}
+#clientModal .client-first-payment label{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--text);
+  cursor:pointer;
+}
+#clientModal .client-first-payment input{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  margin:0;
+}
+#clientModal .client-modal-foot{
+  position:relative;
+  z-index:5;
+  flex:0 0 auto;
+  display:flex;
+  flex-wrap:nowrap;
+  justify-content:flex-end;
+  gap:8px;
+  width:100%;
+  margin:0;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);
+  background:var(--bg);
+  box-shadow:0 -10px 28px rgba(0,0,0,.10);
+}
+#clientModal .client-modal-foot .btn{
+  min-width:128px;
+  min-height:44px;
+}
+#clientModal .client-save-btn{
+  color:#fff;
+  font-weight:760;
+}
+
+@media(max-width:760px){
+  #clientModal{
+    align-items:flex-end;
+    justify-content:center;
+    padding:
+      max(6px,env(safe-area-inset-top))
+      0
+      0;
+    overflow:hidden;
+  }
+
+  #clientModal .client-modal-box{
+    width:100%;
+    max-width:100%;
+    height:calc(100vh - env(safe-area-inset-top) - 6px);
+    max-height:calc(100vh - env(safe-area-inset-top) - 6px);
+    height:calc(100dvh - env(safe-area-inset-top) - 6px);
+    max-height:calc(100dvh - env(safe-area-inset-top) - 6px);
+    border-radius:18px 18px 0 0;
+    border-bottom:0;
+  }
+
+  #clientModal .client-modal-head{
+    min-height:58px;
+    padding:10px 14px;
+  }
+
+  #clientModal .client-modal-head h3{
+    font-size:17px;
+  }
+
+  #clientModal .client-modal-scroll{
+    padding:13px 14px 16px;
+  }
+
+  #clientModal .client-form-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  #clientModal .client-form-grid .span2{
+    grid-column:auto;
+  }
+
+  /* 16px evita o zoom automático do Safari ao focar os campos. */
+  #clientModal input:not([type="checkbox"]),
+  #clientModal select,
+  #clientModal textarea{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    font-size:16px!important;
+    line-height:1.25;
+  }
+
+  #clientModal input:not([type="checkbox"]),
+  #clientModal select{
+    min-height:46px;
+  }
+
+  #clientModal textarea{
+    min-height:86px;
+  }
+
+  #clientModal .field label{
+    font-size:12px;
+  }
+
+  #clientModal .client-custom-value small{
+    font-size:11px;
+  }
+
+  #clientModal .client-first-payment{
+    padding:12px;
+  }
+
+  #clientModal .client-first-payment label{
+    min-height:24px;
+    font-size:13px;
+    line-height:1.3;
+  }
+
+  #clientModal .client-modal-foot{
+    gap:8px;
+    padding:
+      10px
+      14px
+      calc(10px + env(safe-area-inset-bottom));
+  }
+
+  #clientModal .client-modal-foot .btn{
+    flex:1 1 0;
+    min-width:0;
+    min-height:48px;
+    padding:10px 8px;
+    font-size:14px;
+    white-space:nowrap;
+  }
+}
+
+@media(max-width:390px){
+  #clientModal .client-modal-scroll{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  #clientModal .client-modal-foot{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  #clientModal .client-modal-foot .btn{
+    font-size:13.5px;
+  }
+}
+
+:root.light #clientModal .client-modal-head,
+:root.light #clientModal .client-modal-foot{
+  background:#fff;
+}
+
 </style>
 </head>
 <body>
@@ -5830,24 +6072,94 @@ body:has(#page-config.active) .fab{
 
 
 <div class="modal" id="clientModal">
-  <div class="modal-box">
-    <div class="modal-head"><h3 id="clientModalTitle">Novo cliente</h3><button class="icon-btn" onclick="closeModal('clientModal')">✕</button></div>
-    <form id="clientForm" onsubmit="saveClient(event)">
+  <div class="modal-box client-modal-box">
+    <div class="modal-head client-modal-head">
+      <h3 id="clientModalTitle">Novo cliente</h3>
+      <button class="icon-btn" type="button" onclick="closeModal('clientModal')" aria-label="Fechar cadastro de cliente">✕</button>
+    </div>
+
+    <form id="clientForm" class="client-modal-form" onsubmit="saveClient(event)">
       <input type="hidden" id="clientId">
-      <div class="form-grid">
-        <div class="field"><label>Nome</label><input id="fName" required></div>
-        <div class="field"><label>WhatsApp</label><input id="fPhone" placeholder="67999999999"></div>
-        <div class="field"><label>Plano</label><select id="fPlan" required><option value="Mensal">Mensal</option></select></div>
-        <div class="field"><label>Valor da assinatura</label><select id="fValue" required><option value="39.90">R$ 39,90</option><option value="40">R$ 40,00</option></select></div>
-        <div class="field"><label>Data de entrada</label><input id="fStart" type="date" required></div>
-        <div class="field"><label>Próximo vencimento</label><input id="fDue" type="date" required></div>
-        <div class="field"><label>Status</label><select id="fStatus"><option value="ativo">Ativo</option><option value="pendente">Pendente</option><option value="atrasado">Atrasado</option><option value="cancelado">Cancelado</option></select></div>
-        <div class="field"><label>Origem</label><select id="fSource"><option>WhatsApp</option><option>Instagram</option><option>Indicação</option><option>Facebook</option><option>Site</option><option>Outro</option></select></div>
-        <div class="field"><label>Motivo do cancelamento (se houver)</label><select id="fCancelReason"><option value="">Não se aplica</option><option>Preço</option><option>Não utiliza mais</option><option>Problema no pagamento</option><option>Atendimento</option><option>Outro</option></select></div>
-        <div class="field span2"><label>Observações</label><textarea id="fNotes"></textarea></div>
-        <div class="field span2"><label><input type="checkbox" id="fFirstPaid"> Primeiro pagamento já realizado</label></div>
+
+      <div class="client-modal-scroll">
+        <div class="form-grid client-form-grid">
+          <div class="field">
+            <label for="fName">Nome</label>
+            <input id="fName" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="fPhone">Telefone</label>
+            <input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="67999999999">
+          </div>
+
+          <div class="field">
+            <label for="fPlan">Plano</label>
+            <select id="fPlan" required>
+              <option value="Mensal">Mensal</option>
+            </select>
+          </div>
+
+          <div class="field client-value-field">
+            <label for="fValue">Valor da assinatura</label>
+            <select id="fValue" required onchange="toggleClientCustomValue(true)">
+              <option value="39.90">R$ 39,90</option>
+              <option value="40">R$ 40,00</option>
+              <option value="custom">Outro valor</option>
+            </select>
+
+            <div class="client-custom-value" id="customValueWrap" hidden>
+              <input
+                id="fCustomValue"
+                type="text"
+                inputmode="decimal"
+                autocomplete="off"
+                placeholder="R$ 0,00"
+                aria-label="Outro valor da assinatura"
+                oninput="this.setCustomValidity('')"
+                onblur="formatClientCustomValue()">
+              <small>Digite qualquer valor em reais.</small>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="fStart">Data de entrada</label>
+            <input id="fStart" type="date" required>
+          </div>
+
+          <div class="field">
+            <label for="fDue">Próximo vencimento</label>
+            <input id="fDue" type="date" required>
+          </div>
+
+          <div class="field">
+            <label for="fStatus">Status</label>
+            <select id="fStatus">
+              <option value="ativo">Ativo</option>
+              <option value="pendente">Pendente</option>
+              <option value="atrasado">Atrasado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+
+          <div class="field span2">
+            <label for="fNotes">Observações</label>
+            <textarea id="fNotes"></textarea>
+          </div>
+
+          <div class="field span2 client-first-payment">
+            <label for="fFirstPaid">
+              <input type="checkbox" id="fFirstPaid">
+              <span>Primeiro pagamento já realizado</span>
+            </label>
+          </div>
+        </div>
       </div>
-      <div class="modal-foot"><button type="button" class="btn" onclick="closeModal('clientModal')">Cancelar</button><button class="btn primary">Salvar cliente</button></div>
+
+      <div class="modal-foot client-modal-foot">
+        <button type="button" class="btn" onclick="closeModal('clientModal')">Cancelar</button>
+        <button type="submit" class="btn primary client-save-btn">Salvar cliente</button>
+      </div>
     </form>
   </div>
 </div>
@@ -6172,29 +6484,136 @@ function billingRow(c){
  </div>`;
 }
 
+function parseClientBRL(value){
+ const original=String(value??'').trim();
+ if(!original)return NaN;
+ let raw=original.replace(/\s/g,'').replace(/^R\$/i,'').replace(/[^\d,.\-]/g,'');
+ if(!raw)return NaN;
+ const comma=raw.lastIndexOf(','),dot=raw.lastIndexOf('.');
+ if(comma>-1&&dot>-1){
+  if(comma>dot)raw=raw.replace(/\./g,'').replace(',','.');
+  else raw=raw.replace(/,/g,'');
+ }else if(comma>-1){
+  raw=raw.replace(/\./g,'').replace(',','.');
+ }else if((raw.match(/\./g)||[]).length>1){
+  const last=raw.lastIndexOf('.');
+  raw=raw.slice(0,last).replace(/\./g,'')+raw.slice(last);
+ }
+ const number=Number(raw);
+ return Number.isFinite(number)?number:NaN;
+}
+function toggleClientCustomValue(focusField=false){
+ const isCustom=$('#fValue').value==='custom';
+ const wrap=$('#customValueWrap'),input=$('#fCustomValue');
+ wrap.hidden=!isCustom;
+ input.required=isCustom;
+ if(!isCustom)input.setCustomValidity('');
+ if(isCustom&&focusField)setTimeout(()=>input.focus(),40);
+}
+function formatClientCustomValue(){
+ const input=$('#fCustomValue');
+ if(!input.value.trim())return;
+ const value=parseClientBRL(input.value);
+ if(Number.isFinite(value)&&value>0){
+  input.value=brl(value);
+  input.setCustomValidity('');
+ }
+}
+function getClientSubscriptionValue(){
+ if($('#fValue').value!=='custom')return Number($('#fValue').value);
+ return parseClientBRL($('#fCustomValue').value);
+}
+function setClientSubscriptionValue(value){
+ const numeric=Number(value);
+ const predefined=Math.abs(numeric-39.90)<0.001?'39.90':Math.abs(numeric-40)<0.001?'40':'custom';
+ $('#fValue').value=predefined;
+ $('#fCustomValue').value=predefined==='custom'&&Number.isFinite(numeric)?brl(numeric):'';
+ toggleClientCustomValue(false);
+}
 function openClientModal(id=''){
- $('#clientForm').reset(); $('#clientId').value=id; $('#fPlan').value='Mensal';$('#fValue').value='39.90';$('#fStart').value=todayISO();$('#fDue').value=addDays(todayISO(),30);$('#fStatus').value='ativo';$('#fCancelReason').value='';
- if(id){const c=db.clients.find(x=>x.id===id);if(!c)return;$('#clientModalTitle').textContent='Editar cliente';$('#fName').value=c.name;$('#fPhone').value=c.phone||'';$('#fPlan').value=c.plan;$('#fValue').value=c.value;$('#fStart').value=c.start;$('#fDue').value=c.due;$('#fStatus').value=c.status;$('#fSource').value=c.source||'WhatsApp';$('#fCancelReason').value=c.cancelReason||'';$('#fNotes').value=c.notes||''}
- else $('#clientModalTitle').textContent='Novo cliente';
+ $('#clientForm').reset();
+ $('#clientId').value=id;
+ $('#fPlan').value='Mensal';
+ $('#fValue').value='39.90';
+ $('#fCustomValue').value='';
+ toggleClientCustomValue(false);
+ $('#fStart').value=todayISO();
+ $('#fDue').value=addDays(todayISO(),30);
+ $('#fStatus').value='ativo';
+
+ if(id){
+  const c=db.clients.find(x=>x.id===id);if(!c)return;
+  $('#clientModalTitle').textContent='Editar cliente';
+  $('#fName').value=c.name;
+  $('#fPhone').value=c.phone||'';
+  $('#fPlan').value=c.plan;
+  setClientSubscriptionValue(c.value);
+  $('#fStart').value=c.start;
+  $('#fDue').value=c.due;
+  $('#fStatus').value=c.status;
+  $('#fNotes').value=c.notes||'';
+ }else{
+  $('#clientModalTitle').textContent='Novo cliente';
+ }
+
  $('#clientModal').classList.add('open');
 }
 function saveClient(e){
- e.preventDefault(); const id=$('#clientId').value;
+ e.preventDefault();
+ const id=$('#clientId').value;
+ const existing=id?db.clients.find(x=>x.id===id):null;
+ if(id&&!existing)return;
+
+ const subscriptionValue=getClientSubscriptionValue();
+ if(!Number.isFinite(subscriptionValue)||subscriptionValue<=0){
+  const input=$('#fValue').value==='custom'?$('#fCustomValue'):$('#fValue');
+  if($('#fValue').value==='custom'){
+   input.setCustomValidity('Informe um valor válido para a assinatura.');
+  }
+  input.reportValidity();
+  input.focus();
+  return;
+ }
+
  const firstPaid=!id&&$('#fFirstPaid').checked;
- const data={name:$('#fName').value.trim(),phone:$('#fPhone').value.trim(),plan:$('#fPlan').value,value:Number($('#fValue').value),start:$('#fStart').value,due:$('#fDue').value,status:$('#fStatus').value,source:$('#fSource').value,cancelReason:$('#fStatus').value==='cancelado'?$('#fCancelReason').value:'',notes:$('#fNotes').value.trim()};
+ const data={
+  name:$('#fName').value.trim(),
+  phone:$('#fPhone').value.trim(),
+  plan:$('#fPlan').value,
+  value:subscriptionValue,
+  start:$('#fStart').value,
+  due:$('#fDue').value,
+  status:$('#fStatus').value,
+  // O campo não aparece mais no formulário. Dados antigos continuam preservados.
+  source:id?(existing.source||'WhatsApp'):'WhatsApp',
+  cancelReason:id?(existing.cancelReason||''):'',
+  notes:$('#fNotes').value.trim()
+ };
+
  if(id){
-  let c=db.clients.find(x=>x.id===id);if(!c)return;
+  const c=existing;
   const wasCanceled=c.status==='cancelado';
   Object.assign(c,data);
   if(c.status==='cancelado'&&!wasCanceled)c.cancelDate=todayISO();
   if(c.status!=='cancelado'&&!c.cancelDate)c.cancelDate='';
- }
- else{
-  data.id=uid();data.payments=[];data.billing=[];data.cancelDate=data.status==='cancelado'?todayISO():'';
-  if(firstPaid){data.status='ativo';data.cancelReason='';data.cancelDate='';data.due=addDays(data.start,30);data.payments.push({id:uid(),date:data.start,value:data.value,method:'Pix',note:'Primeiro pagamento'});}
+ }else{
+  data.id=uid();
+  data.payments=[];
+  data.billing=[];
+  data.cancelDate=data.status==='cancelado'?todayISO():'';
+  if(firstPaid){
+   data.status='ativo';
+   data.cancelReason='';
+   data.cancelDate='';
+   data.due=addDays(data.start,30);
+   data.payments.push({id:uid(),date:data.start,value:data.value,method:'Pix',note:'Primeiro pagamento'});
+  }
   db.clients.unshift(data);
  }
- persist();closeModal('clientModal');refreshAll();
+
+ persist();
+ closeModal('clientModal');
+ refreshAll();
 }
 function openDetail(id){
  const c=db.clients.find(x=>x.id===id);if(!c)return;const [sc,sl]=statusLabel(c);
