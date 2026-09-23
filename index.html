@@ -5333,6 +5333,188 @@ body:has(#page-config.active) .fab{
   background:#fff;
 }
 
+
+/* ===== V32 • NOVO CLIENTE: COMPACTO + BOTÃO VISÍVEL NOS DOIS TEMAS ===== */
+
+/* O botão primário do modal recebe o próprio fundo.
+   Isso evita que a regra geral do tema claro (.btn) sobrescreva o gradiente. */
+#clientModal .client-save-btn{
+  position:relative;
+  z-index:1;
+  opacity:1;
+  visibility:visible;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-color:transparent;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  font-weight:760;
+}
+
+:root.light #clientModal .client-save-btn{
+  border-color:transparent;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  opacity:1;
+  visibility:visible;
+}
+
+/* O modal passa a usar apenas a altura necessária.
+   max-height limita em telas pequenas; não há preenchimento artificial da viewport. */
+#clientModal .client-modal-box{
+  height:auto;
+  max-height:min(92dvh,820px);
+}
+
+#clientModal .client-modal-form{
+  flex:0 1 auto;
+  min-height:0;
+  overflow:hidden;
+}
+
+#clientModal .client-modal-scroll{
+  flex:0 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-top:14px;
+  padding-bottom:10px;
+}
+
+#clientModal .client-form-grid{
+  gap:10px 12px;
+}
+
+/* Observações mais compactas. */
+#clientModal #fNotes{
+  min-height:88px;
+  height:88px;
+  max-height:100px;
+}
+
+/* Mantém o primeiro pagamento próximo de Observações. */
+#clientModal .client-first-payment{
+  margin-top:6px;
+}
+
+/* Rodapé próximo ao final do formulário e sempre acima da safe-area. */
+#clientModal .client-modal-foot{
+  flex:0 0 auto;
+  margin:0;
+  padding:
+    11px
+    18px
+    calc(11px + env(safe-area-inset-bottom));
+  background:var(--bg);
+}
+
+@media(max-width:760px){
+  #clientModal{
+    align-items:center;
+    justify-content:center;
+    padding:
+      max(8px,env(safe-area-inset-top))
+      8px
+      max(8px,env(safe-area-inset-bottom));
+  }
+
+  #clientModal .client-modal-box{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:calc(100vh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+    max-height:calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+    border-radius:18px;
+    border-bottom:1px solid var(--line);
+  }
+
+  #clientModal .client-modal-head{
+    min-height:54px;
+    padding:9px 13px;
+  }
+
+  #clientModal .client-modal-scroll{
+    flex:0 1 auto;
+    padding:
+      11px
+      13px
+      9px;
+  }
+
+  #clientModal .client-form-grid{
+    gap:10px;
+  }
+
+  #clientModal #fNotes{
+    min-height:84px;
+    height:84px;
+    max-height:96px;
+  }
+
+  #clientModal .client-first-payment{
+    margin-top:6px;
+    padding:10px 11px;
+  }
+
+  #clientModal .client-modal-foot{
+    gap:8px;
+    padding:
+      11px
+      13px
+      calc(11px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line);
+  }
+
+  #clientModal .client-modal-foot .btn{
+    min-height:48px;
+  }
+}
+
+@media(max-width:390px){
+  #clientModal{
+    padding-left:6px;
+    padding-right:6px;
+  }
+
+  #clientModal .client-modal-scroll{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  #clientModal .client-modal-foot{
+    padding-left:11px;
+    padding-right:11px;
+  }
+}
+
+:root.light #clientModal .client-modal-box,
+:root.light #clientModal .client-modal-head,
+:root.light #clientModal .client-modal-foot{
+  background:#fff;
+}
+
+:root.light #clientModal .client-modal-foot{
+  border-top-color:var(--line);
+  box-shadow:0 -8px 22px rgba(32,50,78,.08);
+}
+
+
+/* ===== V33 • VENCIMENTO AUTOMÁTICO NO NOVO CLIENTE ===== */
+#clientModal .client-due-hint{
+  display:block;
+  margin-top:6px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.35;
+}
+
+@media(max-width:760px){
+  #clientModal .client-due-hint{
+    font-size:12px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -6124,12 +6306,8 @@ body:has(#page-config.active) .fab{
 
           <div class="field">
             <label for="fStart">Data de entrada</label>
-            <input id="fStart" type="date" required>
-          </div>
-
-          <div class="field">
-            <label for="fDue">Próximo vencimento</label>
-            <input id="fDue" type="date" required>
+            <input id="fStart" type="date" required onchange="syncClientAutomaticDue()">
+            <small class="client-due-hint" id="clientDueHint">O próximo vencimento será calculado automaticamente em 30 dias.</small>
           </div>
 
           <div class="field">
@@ -6530,6 +6708,12 @@ function setClientSubscriptionValue(value){
  $('#fCustomValue').value=predefined==='custom'&&Number.isFinite(numeric)?brl(numeric):'';
  toggleClientCustomValue(false);
 }
+function syncClientAutomaticDue(){
+ const start=$('#fStart')?.value;
+ const hint=$('#clientDueHint');
+ if(!start||!hint)return;
+ hint.textContent=`Próximo vencimento automático: ${formatDate(addDays(start,30))}`;
+}
 function openClientModal(id=''){
  $('#clientForm').reset();
  $('#clientId').value=id;
@@ -6538,8 +6722,8 @@ function openClientModal(id=''){
  $('#fCustomValue').value='';
  toggleClientCustomValue(false);
  $('#fStart').value=todayISO();
- $('#fDue').value=addDays(todayISO(),30);
  $('#fStatus').value='ativo';
+ syncClientAutomaticDue();
 
  if(id){
   const c=db.clients.find(x=>x.id===id);if(!c)return;
@@ -6549,8 +6733,8 @@ function openClientModal(id=''){
   $('#fPlan').value=c.plan;
   setClientSubscriptionValue(c.value);
   $('#fStart').value=c.start;
-  $('#fDue').value=c.due;
   $('#fStatus').value=c.status;
+  syncClientAutomaticDue();
   $('#fNotes').value=c.notes||'';
  }else{
   $('#clientModalTitle').textContent='Novo cliente';
@@ -6576,13 +6760,19 @@ function saveClient(e){
  }
 
  const firstPaid=!id&&$('#fFirstPaid').checked;
+ const startDate=$('#fStart').value;
+ let automaticDue=addDays(startDate,30);
+ if(id&&existing&&(existing.payments||[]).length){
+  const latestPayment=existing.payments.slice().sort((a,b)=>paymentDateKey(b.date).localeCompare(paymentDateKey(a.date)))[0];
+  if(latestPayment?.date)automaticDue=addDays(paymentDateKey(latestPayment.date),30);
+ }
  const data={
   name:$('#fName').value.trim(),
   phone:$('#fPhone').value.trim(),
   plan:$('#fPlan').value,
   value:subscriptionValue,
-  start:$('#fStart').value,
-  due:$('#fDue').value,
+  start:startDate,
+  due:automaticDue,
   status:$('#fStatus').value,
   // O campo não aparece mais no formulário. Dados antigos continuam preservados.
   source:id?(existing.source||'WhatsApp'):'WhatsApp',
