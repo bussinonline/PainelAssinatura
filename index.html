@@ -6254,6 +6254,109 @@ body:has(#page-config.active) .fab{
     white-space:nowrap;
   }
 }
+
+
+/* ===== V40.2 • PRIMEIRO PAGAMENTO / STATUS AUTOMÁTICO ===== */
+#clientModal .client-entry-hint,
+#clientModal .client-status-hint{
+  display:block;
+  color:var(--muted2);
+  font-size:9.5px;
+  line-height:1.4;
+}
+#clientModal #fStatus:disabled{
+  opacity:1;
+  cursor:default;
+  color:var(--text);
+  -webkit-text-fill-color:var(--text);
+}
+#clientModal .client-first-payment{
+  display:grid;
+  gap:10px;
+}
+#clientModal .client-first-payment[hidden]{
+  display:none!important;
+}
+#clientModal .first-payment-unpaid-hint{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.45;
+  padding-left:27px;
+}
+#clientModal .first-payment-unpaid-hint[hidden],
+#clientModal .client-first-payment-details[hidden]{
+  display:none!important;
+}
+#clientModal .client-first-payment-details{
+  display:grid;
+  gap:10px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+#clientModal .first-payment-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+#clientModal .first-payment-summary-grid>div{
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
+}
+#clientModal .first-payment-summary-grid span,
+#clientModal .first-payment-method>label{
+  display:block;
+  margin-bottom:5px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+}
+#clientModal .first-payment-summary-grid b{
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  line-height:1.25;
+  white-space:nowrap;
+}
+#clientModal .first-payment-method select{
+  width:100%;
+  min-height:34px;
+  padding:6px 8px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel2);
+  color:var(--text);
+}
+#clientModal .first-payment-confirm{
+  padding:9px 10px;
+  border:1px solid rgba(54,214,164,.20);
+  border-radius:10px;
+  background:rgba(54,214,164,.07);
+  color:var(--text);
+  font-size:10.5px;
+  line-height:1.45;
+}
+@media(max-width:760px){
+  #clientModal .first-payment-summary-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  #clientModal .first-payment-method{
+    grid-column:1/-1;
+  }
+}
+@media(max-width:390px){
+  #clientModal .first-payment-summary-grid{
+    grid-template-columns:1fr;
+  }
+  #clientModal .first-payment-method{
+    grid-column:auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -7037,7 +7140,7 @@ body:has(#page-config.active) .fab{
                 autocomplete="off"
                 placeholder="R$ 0,00"
                 aria-label="Outro valor da assinatura"
-                oninput="this.setCustomValidity('')"
+                oninput="this.setCustomValidity('');syncFirstPaymentUI()"
                 onblur="formatClientCustomValue()">
               <small>Digite qualquer valor em reais.</small>
             </div>
@@ -7045,7 +7148,8 @@ body:has(#page-config.active) .fab{
 
           <div class="field">
             <label for="fStart">Data de entrada</label>
-            <input id="fStart" type="date" required onchange="syncClientAutomaticDue()">
+            <input id="fStart" type="date" required onchange="syncClientAutomaticDue();syncFirstPaymentUI()">
+            <small class="client-entry-hint">Se o primeiro pagamento já foi realizado, use aqui a data desse pagamento.</small>
             <small class="client-due-hint" id="clientDueHint">O próximo vencimento será calculado automaticamente em 30 dias.</small>
           </div>
 
@@ -7057,6 +7161,7 @@ body:has(#page-config.active) .fab{
               <option value="atrasado">Atrasado</option>
               <option value="cancelado">Cancelado</option>
             </select>
+            <small class="client-status-hint" id="clientStatusHint"></small>
           </div>
 
           <div class="field span2">
@@ -7064,11 +7169,38 @@ body:has(#page-config.active) .fab{
             <textarea id="fNotes"></textarea>
           </div>
 
-          <div class="field span2 client-first-payment">
+          <div class="field span2 client-first-payment" id="firstPaymentField">
             <label for="fFirstPaid">
-              <input type="checkbox" id="fFirstPaid">
-              <span>Primeiro pagamento já realizado</span>
+              <input type="checkbox" id="fFirstPaid" onchange="syncFirstPaymentUI()">
+              <span>Registrar primeiro pagamento como recebido</span>
             </label>
+
+            <small class="first-payment-unpaid-hint" id="firstPaymentUnpaidHint">
+              Se não marcar esta opção, o cliente será salvo como Pendente e nenhum valor será lançado como recebido.
+            </small>
+
+            <div class="client-first-payment-details" id="firstPaymentDetails" hidden>
+              <div class="first-payment-summary-grid">
+                <div>
+                  <span>Valor recebido</span>
+                  <b class="money" id="firstPaymentValue">R$ 0,00</b>
+                </div>
+                <div>
+                  <span>Data do pagamento</span>
+                  <b id="firstPaymentDate">—</b>
+                </div>
+                <div class="first-payment-method">
+                  <label for="fFirstPaidMethod">Método</label>
+                  <select id="fFirstPaidMethod" onchange="syncFirstPaymentUI()">
+                    <option>Pix</option>
+                    <option>Dinheiro</option>
+                    <option>Cartão</option>
+                    <option>Outro</option>
+                  </select>
+                </div>
+              </div>
+              <div class="first-payment-confirm" id="firstPaymentSummary"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -7265,6 +7397,7 @@ function dateInRange(date,start,end){return !!date&&date>=start&&date<=end}
 function refreshDashboard(){
  normalizeStatuses();
  const active=db.clients.filter(c=>c.status==='ativo'||c.status==='pendente'||c.status==='atrasado');
+ const activeOnly=db.clients.filter(c=>c.status==='ativo');
  const pending=db.clients.filter(c=>c.status==='pendente');
  const late=lateClients(); const today=clientsDueExact(0), tomorrow=clientsDueExact(1), next7=clientsDueWithin(7);
  const now=new Date();
@@ -7295,8 +7428,8 @@ function refreshDashboard(){
 
  set('#homeRevenueEyebrow',homePeriod==='today'?'RECEITA DE HOJE':'RECEITA RECEBIDA '+range.label);
  set('#homePeriodHeading',range.heading);set('#homePeriodDescription',range.description);
- set('#heroRevenue',brl(periodReceived));set('#expectedRevenue',brl(periodExpected));set('#grossReceived',brl(periodReceived));set('#activeCount',active.length);set('#pendingCount',pending.length);set('#homeLateCount',late.length);
- set('#mActive',active.length);set('#mPending',pending.length);set('#mLate',late.length);set('#mToday',today.length);set('#mMrr',brl(mrr));set('#mNew',periodNew.length);set('#mCanceled',periodCanceled.length);set('#mTicket',brl(ticket));
+ set('#heroRevenue',brl(periodReceived));set('#expectedRevenue',brl(periodExpected));set('#grossReceived',brl(periodReceived));set('#activeCount',activeOnly.length);set('#pendingCount',pending.length);set('#homeLateCount',late.length);
+ set('#mActive',activeOnly.length);set('#mPending',pending.length);set('#mLate',late.length);set('#mToday',today.length);set('#mMrr',brl(mrr));set('#mNew',periodNew.length);set('#mCanceled',periodCanceled.length);set('#mTicket',brl(ticket));
  set('#aToday',today.length);set('#aTodayValue',brl(sumVal(today)));set('#aTomorrow',tomorrow.length);set('#aTomorrowValue',brl(sumVal(tomorrow)));set('#aLate',late.length);set('#aLateValue',brl(sumVal(late)));set('#a7',next7.length);set('#a7Value',brl(sumVal(next7)));set('#netResult',brl(periodReceived-periodCosts));
  set('#cToday',today.length);set('#cTodayV',brl(sumVal(today)));set('#cTomorrow',tomorrow.length);set('#cTomorrowV',brl(sumVal(tomorrow)));
  let n3=clientsDueWithin(3);set('#c3',n3.length);set('#c3V',brl(sumVal(n3)));set('#c7',next7.length);set('#c7V',brl(sumVal(next7)));set('#cLate',late.length);set('#cLateV',brl(sumVal(late)));
@@ -7487,15 +7620,17 @@ function toggleClientCustomValue(focusField=false){
  input.required=isCustom;
  if(!isCustom)input.setCustomValidity('');
  if(isCustom&&focusField)setTimeout(()=>input.focus(),40);
+ if(typeof syncFirstPaymentUI==='function')syncFirstPaymentUI();
 }
 function formatClientCustomValue(){
  const input=$('#fCustomValue');
- if(!input.value.trim())return;
+ if(!input.value.trim()){syncFirstPaymentUI();return;}
  const value=parseClientBRL(input.value);
  if(Number.isFinite(value)&&value>0){
   input.value=brl(value);
   input.setCustomValidity('');
  }
+ syncFirstPaymentUI();
 }
 function getClientSubscriptionValue(){
  if($('#fValue').value!=='custom')return Number($('#fValue').value);
@@ -7514,15 +7649,56 @@ function syncClientAutomaticDue(){
  if(!start||!hint)return;
  hint.textContent=`Próximo vencimento automático: ${formatDate(addMonthsSameDay(start,1))}`;
 }
+function syncFirstPaymentUI(){
+ const id=$('#clientId')?.value||'';
+ const field=$('#firstPaymentField'),details=$('#firstPaymentDetails');
+ const checkbox=$('#fFirstPaid'),status=$('#fStatus'),statusHint=$('#clientStatusHint');
+ if(!field||!checkbox||!status)return;
+
+ if(id){
+  field.hidden=true;
+  status.disabled=false;
+  if(statusHint)statusHint.textContent='Status atual do cliente. Você pode ajustá-lo manualmente.';
+  return;
+ }
+
+ field.hidden=false;
+ const paid=checkbox.checked;
+ status.value=paid?'ativo':'pendente';
+ status.disabled=true;
+ if(statusHint)statusHint.textContent=paid
+   ?'Ativo: o primeiro pagamento será registrado junto com o cadastro.'
+   :'Pendente: ainda não existe pagamento confirmado para este cliente.';
+
+ if(details)details.hidden=!paid;
+ const unpaidHint=$('#firstPaymentUnpaidHint');
+ if(unpaidHint)unpaidHint.hidden=paid;
+
+ if(!paid)return;
+
+ const value=getClientSubscriptionValue();
+ const start=$('#fStart')?.value||'';
+ const valueEl=$('#firstPaymentValue'),dateEl=$('#firstPaymentDate'),summary=$('#firstPaymentSummary');
+ if(valueEl)valueEl.textContent=Number.isFinite(value)&&value>0?brl(value):'—';
+ if(dateEl)dateEl.textContent=start?formatDate(start):'—';
+ if(summary){
+  const method=$('#fFirstPaidMethod')?.value||'Pix';
+  const due=start?formatDate(addMonthsSameDay(start,1)):'—';
+  summary.textContent=(Number.isFinite(value)&&value>0&&start)
+   ?`Será registrado ${brl(value)} como recebido em ${formatDate(start)} via ${method}. Próximo vencimento: ${due}.`
+   :'Preencha o valor e a data de entrada para registrar o pagamento.';
+ }
+}
 function openClientModal(id=''){
  $('#clientForm').reset();
  $('#clientId').value=id;
  $('#fPlan').value='Mensal';
  $('#fValue').value='39.90';
  $('#fCustomValue').value='';
+ $('#fFirstPaidMethod').value='Pix';
  toggleClientCustomValue(false);
  $('#fStart').value=todayISO();
- $('#fStatus').value='ativo';
+ $('#fStatus').value='pendente';
  syncClientAutomaticDue();
 
  if(id){
@@ -7540,6 +7716,7 @@ function openClientModal(id=''){
   $('#clientModalTitle').textContent='Novo cliente';
  }
 
+ syncFirstPaymentUI();
  $('#clientModal').classList.add('open');
 }
 function saveClient(e){
@@ -7573,7 +7750,7 @@ function saveClient(e){
   value:subscriptionValue,
   start:startDate,
   due:automaticDue,
-  status:$('#fStatus').value,
+  status:id?$('#fStatus').value:(firstPaid?'ativo':'pendente'),
   // O campo não aparece mais no formulário. Dados antigos continuam preservados.
   source:id?(existing.source||'WhatsApp'):'WhatsApp',
   cancelReason:id?(existing.cancelReason||''):'',
@@ -7590,13 +7767,20 @@ function saveClient(e){
   data.id=uid();
   data.payments=[];
   data.billing=[];
-  data.cancelDate=data.status==='cancelado'?todayISO():'';
+  data.cancelDate='';
   if(firstPaid){
    data.status='ativo';
    data.cancelReason='';
-   data.cancelDate='';
    data.due=addMonthsSameDay(data.start,1);
-   data.payments.push({id:uid(),date:data.start,value:data.value,method:'Pix',note:'Primeiro pagamento'});
+   data.payments.push({
+    id:uid(),
+    date:data.start,
+    value:data.value,
+    method:$('#fFirstPaidMethod').value||'Pix',
+    note:'Primeiro pagamento'
+   });
+  }else{
+   data.status='pendente';
   }
   db.clients.unshift(data);
  }
@@ -7604,6 +7788,13 @@ function saveClient(e){
  persist();
  closeModal('clientModal');
  refreshAll();
+ if(id){
+  showPanelToast('Cadastro do cliente atualizado');
+ }else if(firstPaid){
+  showPanelToast(`Cliente salvo • ${brl(data.value)} registrado como recebido`);
+ }else{
+  showPanelToast('Cliente salvo • pagamento pendente');
+ }
 }
 function openDetail(id){
  const c=db.clients.find(x=>x.id===id);if(!c)return;const [sc,sl]=statusLabel(c);
