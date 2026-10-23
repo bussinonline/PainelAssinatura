@@ -50,8 +50,10 @@ function totals(){
  const produced=sum(data.batches,x=>Number(x.qty)||0), invested=sum(data.batches,x=>Number(x.totalCost)||0);
  const sold=sum(data.sales,x=>Number(x.qty)||0), revenue=sum(data.sales,x=>(Number(x.qty)||0)*(Number(x.price)||0));
  const expenses=sum(data.expenses,x=>Number(x.value)||0), remaining=Math.max(0,produced-sold);
- const avg=produced?invested/produced:0, cogs=Math.min(sold,produced)*avg, gross=revenue-cogs;
- return {produced,invested,sold,revenue,expenses,remaining,avg,cogs,gross,net:gross-expenses,stockValue:remaining*avg,potential:remaining*Number(data.defaultPrice||0),potentialProfit:remaining*(Number(data.defaultPrice||0)-avg)};
+ // Custo de venda usa o custo médio salvo no momento de cada venda.
+ const cogs=sum(data.sales,x=>(Number(x.qty)||0)*(Number(x.unitCost)||0));
+ const stockValue=Math.max(0,invested-cogs), avg=remaining?stockValue/remaining:0, gross=revenue-cogs;
+ return {produced,invested,sold,revenue,expenses,remaining,avg,cogs,gross,net:gross-expenses,stockValue,potential:remaining*Number(data.defaultPrice||0),potentialProfit:remaining*(Number(data.defaultPrice||0)-avg)};
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dateFmt(s){if(!s)return '—';const p=s.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s}
