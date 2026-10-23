@@ -51,7 +51,7 @@ body[data-theme="light"] td{color:#2b4057}body[data-theme="light"] .notice{backg
 (function(){
 const KEY='nexoFinishedGoodsControlV1';
 const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const today=()=>new Date().toLocaleDateString('en-CA');
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const initial=()=>({version:1,defaultPrice:70,batches:[{id:uid(),date:today(),qty:50,totalCost:199.98,note:'Estoque inicial'}],sales:[],expenses:[]});
 let data;
@@ -72,7 +72,7 @@ function dateFmt(s){if(!s)return '—';const p=s.split('-');return p.length===3?
 function table(headers,rows,empty){if(!rows.length)return '<div class="empty">'+empty+'</div>';return '<div class="table-wrap"><table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>'}
 function monthKey(d){return String(d||'').slice(0,7)}
 function monthLabel(k){const p=k.split('-');return new Date(Number(p[0]),Number(p[1])-1,1).toLocaleDateString('pt-BR',{month:'short'}).replace('.','')}
-function periodRange(mode){const n=new Date();let a=new Date(n.getFullYear(),n.getMonth(),1),b=new Date(n.getFullYear(),n.getMonth()+1,0);if(mode==='prev'){a=new Date(n.getFullYear(),n.getMonth()-1,1);b=new Date(n.getFullYear(),n.getMonth(),0)}else if(mode==='30'){a=new Date(n.getFullYear(),n.getMonth(),n.getDate()-29)}else if(mode==='all')return {a:'0000-01-01',b:'9999-12-31'};return {a:a.getFullYear()+'-'+String(a.getMonth()+1).padStart(2,'0')+'-'+String(a.getDate()).padStart(2,'0'),b:b.getFullYear()+'-'+String(b.getMonth()+1).padStart(2,'0')+'-'+String(b.getDate()).padStart(2,'0')}}
+function periodRange(mode){const n=new Date();let a=new Date(n.getFullYear(),n.getMonth(),1),b=new Date(n.getFullYear(),n.getMonth(),n.getDate());if(mode==='prev'){a=new Date(n.getFullYear(),n.getMonth()-1,1);b=new Date(n.getFullYear(),n.getMonth(),0)}else if(mode==='30'){a=new Date(n.getFullYear(),n.getMonth(),n.getDate()-29)}else if(mode==='all')return {a:'0000-01-01',b:'9999-12-31'};const fmt=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return {a:fmt(a),b:fmt(b)}}
 
 function renderDonut(t){
  const chart=document.getElementById('financeDonut'),cost=Math.max(0,Number(t.cogs)||0),expenses=Math.max(0,Number(t.expenses)||0),net=Number(t.net)||0;
